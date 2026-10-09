@@ -1,0 +1,113 @@
+{
+  "id": "com.metaaudio.artistimage.apple",
+  "order": 30,
+  "name": "Apple Music 艺术家图片",
+  "versionCode": 1,
+  "versionName": "1.0.0",
+  "author": "motian16",
+  "description": "只从 Apple Music 获取艺术家图片，不提供搜歌与歌词。",
+  "apiVersion": 5,
+  "icon": "icon.png",
+  "entry": "source.js",
+  "capabilities": [
+    "searchArtistImages"
+  ],
+  "configFields": [
+    {
+      "key": "region",
+      "title": "地区",
+      "summary": "Apple Music 店铺地区，影响搜得到哪些艺术家",
+      "type": "dropdown",
+      "required": true,
+      "defaultValue": "cn",
+      "options": [
+        {
+          "value": "cn",
+          "label": "中国大陆"
+        },
+        {
+          "value": "us",
+          "label": "美国"
+        },
+        {
+          "value": "jp",
+          "label": "日本"
+        },
+        {
+          "value": "kr",
+          "label": "韩国"
+        },
+        {
+          "value": "tr",
+          "label": "土耳其"
+        },
+        {
+          "value": "hk",
+          "label": "中国香港"
+        },
+        {
+          "value": "tw",
+          "label": "中国台湾"
+        }
+      ]
+    },
+    {
+      "key": "language",
+      "title": "语言",
+      "summary": "请求时带的 l= 参数，影响返回的艺术家名用哪种语言",
+      "type": "dropdown",
+      "required": true,
+      "defaultValue": "zh-Hans",
+      "options": [
+        {
+          "value": "zh-Hans",
+          "label": "简体中文"
+        },
+        {
+          "value": "zh-Hant",
+          "label": "繁体中文"
+        },
+        {
+          "value": "en-US",
+          "label": "English (US)"
+        },
+        {
+          "value": "ja-JP",
+          "label": "日本語"
+        },
+        {
+          "value": "ko-KR",
+          "label": "한국어"
+        },
+        {
+          "value": "tr-TR",
+          "label": "Türkçe"
+        }
+      ]
+    },
+    {
+      "key": "cover_size",
+      "title": "图片尺寸",
+      "summary": "艺术家图片的边长像素（沿用上游字段名 cover_size，实测服务端最大只给到约 963px）",
+      "type": "dropdown",
+      "required": true,
+      "defaultValue": "3000",
+      "options": [
+        {
+          "value": "500",
+          "label": "500 × 500"
+        },
+        {
+          "value": "1000",
+          "label": "1000 × 1000"
+        },
+        {
+          "value": "3000",
+          "label": "3000 × 3000"
+        }
+      ]
+    }
+  ],
+  "minHostApiVersion": 4,
+  "defaultEnabled": true
+}
