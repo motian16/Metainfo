@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "name": "MetaAudio 资源",
+  "updatedAt": "2026-10-09",
+  "note": "软件里「设置 - 插件 - 插件仓库」只填这一条地址即可。",
+  "include": [
+    "https://api.github.com/repos/Replica0110/Lyrico-Plugins/releases/latest"
+  ],
+  "rules": "rules/tag_rules.json",
+  "plugins": [
+    {
+      "id": "com.metaaudio.plugins.all",
+      "name": "全部插件（含艺术家图片能力，一次装完）",
+      "file": "plugins/Lyrico-Plugins-all.zip",
+      "versionCode": 1
+    },
+    {
+      "id": "com.qqmusic.source",
+      "name": "QQ 音乐（含艺术家图片）",
+      "file": "plugins/qq.zip",
+      "versionCode": 1
+    },
+    {
+      "id": "com.neteasecloudmusic.source",
+      "name": "网易云音乐（含艺术家图片）",
+      "file": "plugins/netease.zip",
+      "versionCode": 1
+    },
+    {
+      "id": "com.kugou.source",
+      "name": "酷狗音乐（含艺术家图片）",
+      "file": "plugins/kugou.zip",
+      "versionCode": 1
+    },
+    {
+      "id": "com.applemusic.source",
+      "name": "Apple Music（含艺术家图片）",
+      "file": "plugins/apple.zip",
+      "versionCode": 1
+    },
+    {
+      "id": "com.musicbrainz.source",
+      "name": "MusicBrainz（含艺术家图片）",
+      "file": "plugins/musicbrainz.zip",
+      "versionCode": 1
+    }
+  ]
+}
