@@ -2,9 +2,9 @@
   "schema": 1,
   "name": "MetaAudio 元信息标签规则",
   "file": "tag_rules.json",
-  "version": 7,
+  "version": 8,
   "updatedAt": "2026-10-10",
-  "sha256": "ff8729ffa74e539dd1f311e8e0ba40b974e40388bd760914b7f6b1b60afcb6c3",
+  "sha256": "3ea589c9869932a5f063b34f30c48991a93bc064238f0c0d9c154ebd0d799fae",
   "note": "软件不再内置这份规则。客户端订阅本仓库的 index.json 后，点「更新订阅」会自动下载这一份、按 sha256 校验后立即生效，下次启动继续用；App 里没有手填规则地址的入口，也不能从本地文件导入。装好后规则文件在 Android/data/<包名>/files/tag_rules.json，「设置 - 插件 - 插件列表 - 标签规则」里能看到这份规则的人话版。",
   "format": "schema 2：分组按数组顺序匹配，第一个命中的平台/工具生效；每组带 kind（platform|tool|image）、keys、keyPatterns、valuePatterns、rightKey（列表右侧固定显示哪个键）、keyInfo、keyInfoPatterns、valueLabels、valueInfoPatterns；顶层另有 standard.keys、valueAliases、valueInfoPatterns、valueLabelPatterns、hints。"
 }
