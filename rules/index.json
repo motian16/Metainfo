@@ -4,6 +4,7 @@
   "file": "tag_rules.json",
   "version": 5,
   "updatedAt": "2026-10-09",
-  "note": "软件不再内置这份规则。用户在「设置 - 刮削 - 标签识别规则」里填入 raw 地址即可导入；导入成功后立即生效，且下次启动仍然使用导入的那一份。",
+  "sha256": "8d2b961177b394979b993020b18b80aa92c21e52de5e11f72caca1f20811749f",
+  "note": "软件不再内置这份规则。用户在「设置 - 刮削 - 标签识别规则」里填入 raw 地址即可导入；导入成功后立即生效，且下次启动仍然使用导入的那一份。sha256 可以抄到客户端的「规则校验值」里，或者直接订阅本仓库的 index.json（客户端会自动采用 rules.sha256）。",
   "format": "group/key/value：standard.keys 是标准标签；groups[] 每项带 kind（platform|tool|image）、keys、keyPatterns、valuePatterns、keyInfo、valueLabels 等。"
 }
