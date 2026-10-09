@@ -5,7 +5,7 @@
   "note": "订阅这一条地址即可：更新时会一并装上「元信息源」与「艺术家图源」，并自动更新标签识别规则。元信息源（kind=meta）直接指向 Lyrico-Plugins 的发布包，本仓库不存放它们的源码；艺术家图源（kind=artistimage）的插件包放在本仓库的 Release 里，源码在 plugins/ 下；标签识别规则在 rules/ 下，rules.sha256 用于校验。",
   "rules": {
     "file": "rules/tag_rules.json",
-    "sha256": "0e1da1d1bfc85931d5fcc6d6103ca4d4960a53cbccf7f7788a347f42d1a3ad57"
+    "sha256": "ff8729ffa74e539dd1f311e8e0ba40b974e40388bd760914b7f6b1b60afcb6c3"
   },
   "plugins": [
     {

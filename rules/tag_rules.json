@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "_comment": "元信息标签识别规则（schema 2）。\n按【分组】组织，分组按数组顺序匹配，第一个命中的平台/工具生效；\n组内先看 keys（键名），再看 keyPatterns（键名正则），最后看 valuePatterns（值特征）。\nkind：platform=音乐平台；tool=转码/抓轨工具；image=图片类值。\nrightKey：列表右侧固定显示哪个键的值（键名，小写）——一组里有多个键名时，右侧稳定显示它；\n  没值的键照样参与匹配，只是不会顶到右侧。\nkeyInfo：键名 → 别名/类型/说明；keyInfoPatterns：一类键共用一份说明。\nvalueLabels：值 → 中文译名；valueInfoPatterns：按值的类型给别名与说明。",
-  "rulesVersion": 6,
+  "rulesVersion": 7,
   "rulesUpdatedAt": "2026-10-10",
   "source": "MetaAudio 公共规则",
   "standard": {
@@ -699,6 +699,44 @@
       ]
     },
     {
+      "id": "encoded-library",
+      "name": "编码函数库",
+      "kind": "tool",
+      "keys": [
+        "encoder",
+        "encodedby",
+        "encoded_by",
+        "©too",
+        "©enc",
+        "tenc",
+        "tsse",
+        "encodersettings"
+      ],
+      "keyInfo": {
+        "encoder": {
+          "alias": "编码函数库",
+          "type": "写入工具签名",
+          "description": "写入文件的编码器 / 函数库，MediaInfo 里叫「编码函数库」。Lavf、LAME、libFLAC 这类是标准值，不会列出来；出现别的名字（例如 baimusic）说明有第三方平台往文件里塞了私货。"
+        },
+        "encodedby": {
+          "alias": "编码函数库",
+          "type": "写入工具签名",
+          "description": "同上：值不在标准名单里时才出现在元信息页。"
+        },
+        "©too": {
+          "alias": "编码函数库",
+          "type": "MP4 编码工具原子",
+          "description": "MP4/M4A 里的 ©too 原子，内容与 ENCODER 相同。"
+        },
+        "tenc": {
+          "alias": "编码函数库",
+          "type": "ID3 编码工具帧",
+          "description": "ID3v2 的 TENC 帧，内容与 ENCODER 相同。"
+        }
+      },
+      "_comment": "这一组只认「值不合标准」的那几个 —— 标准值由顶层 standardValues 判掉，不会显示。"
+    },
+    {
       "id": "ffmpeg",
       "name": "FFmpeg",
       "kind": "tool",
@@ -969,5 +1007,72 @@
       "label": "CD 抓轨信息",
       "keyPattern": "^(DISCID|disctotal|tracktotal)$"
     }
-  ]
+  ],
+  "standardValues": {
+    "_comment": "键名 → 认可的值正则。列在这里的键，只有值命中才算\"标准标签\"（不进元信息页）；值不符合标准的要被列出来。",
+    "encoder": [
+      "(?i)^\\s*(lavf|lavc|libav|ffmpeg|ffprobe)",
+      "(?i)^\\s*(lame|libmp3lame|libflac|reference libflac|flake|libvorbis|libopus|opusenc|libopusenc)",
+      "(?i)^\\s*(qaac|fdkaac|nero|neroaacenc|helix|fraunhofer|fhg)",
+      "(?i)^\\s*(itunes|apple|x lossless|xld|dbpoweramp|foobar2000|exact audio copy|eac)",
+      "(?i)^\\s*(mediainfo|gpac|mp4box|bento4|atomicparsley|taglib|mkvmerge|libebur128|libsoxr|sox|gstreamer)",
+      "(?i)^\\s*(sound forge|wavelab|audacity|adobe audition|pro tools|logic pro|cubase|steinberg|reaper|goldwave|samplitude|izotope)"
+    ],
+    "encodedby": [
+      "(?i)^\\s*(lavf|lavc|libav|ffmpeg|ffprobe)",
+      "(?i)^\\s*(lame|libmp3lame|libflac|reference libflac|flake|libvorbis|libopus|opusenc|libopusenc)",
+      "(?i)^\\s*(qaac|fdkaac|nero|neroaacenc|helix|fraunhofer|fhg)",
+      "(?i)^\\s*(itunes|apple|x lossless|xld|dbpoweramp|foobar2000|exact audio copy|eac)",
+      "(?i)^\\s*(mediainfo|gpac|mp4box|bento4|atomicparsley|taglib|mkvmerge|libebur128|libsoxr|sox|gstreamer)",
+      "(?i)^\\s*(sound forge|wavelab|audacity|adobe audition|pro tools|logic pro|cubase|steinberg|reaper|goldwave|samplitude|izotope)"
+    ],
+    "encoded_by": [
+      "(?i)^\\s*(lavf|lavc|libav|ffmpeg|ffprobe)",
+      "(?i)^\\s*(lame|libmp3lame|libflac|reference libflac|flake|libvorbis|libopus|opusenc|libopusenc)",
+      "(?i)^\\s*(qaac|fdkaac|nero|neroaacenc|helix|fraunhofer|fhg)",
+      "(?i)^\\s*(itunes|apple|x lossless|xld|dbpoweramp|foobar2000|exact audio copy|eac)",
+      "(?i)^\\s*(mediainfo|gpac|mp4box|bento4|atomicparsley|taglib|mkvmerge|libebur128|libsoxr|sox|gstreamer)",
+      "(?i)^\\s*(sound forge|wavelab|audacity|adobe audition|pro tools|logic pro|cubase|steinberg|reaper|goldwave|samplitude|izotope)"
+    ],
+    "©too": [
+      "(?i)^\\s*(lavf|lavc|libav|ffmpeg|ffprobe)",
+      "(?i)^\\s*(lame|libmp3lame|libflac|reference libflac|flake|libvorbis|libopus|opusenc|libopusenc)",
+      "(?i)^\\s*(qaac|fdkaac|nero|neroaacenc|helix|fraunhofer|fhg)",
+      "(?i)^\\s*(itunes|apple|x lossless|xld|dbpoweramp|foobar2000|exact audio copy|eac)",
+      "(?i)^\\s*(mediainfo|gpac|mp4box|bento4|atomicparsley|taglib|mkvmerge|libebur128|libsoxr|sox|gstreamer)",
+      "(?i)^\\s*(sound forge|wavelab|audacity|adobe audition|pro tools|logic pro|cubase|steinberg|reaper|goldwave|samplitude|izotope)"
+    ],
+    "©enc": [
+      "(?i)^\\s*(lavf|lavc|libav|ffmpeg|ffprobe)",
+      "(?i)^\\s*(lame|libmp3lame|libflac|reference libflac|flake|libvorbis|libopus|opusenc|libopusenc)",
+      "(?i)^\\s*(qaac|fdkaac|nero|neroaacenc|helix|fraunhofer|fhg)",
+      "(?i)^\\s*(itunes|apple|x lossless|xld|dbpoweramp|foobar2000|exact audio copy|eac)",
+      "(?i)^\\s*(mediainfo|gpac|mp4box|bento4|atomicparsley|taglib|mkvmerge|libebur128|libsoxr|sox|gstreamer)",
+      "(?i)^\\s*(sound forge|wavelab|audacity|adobe audition|pro tools|logic pro|cubase|steinberg|reaper|goldwave|samplitude|izotope)"
+    ],
+    "tenc": [
+      "(?i)^\\s*(lavf|lavc|libav|ffmpeg|ffprobe)",
+      "(?i)^\\s*(lame|libmp3lame|libflac|reference libflac|flake|libvorbis|libopus|opusenc|libopusenc)",
+      "(?i)^\\s*(qaac|fdkaac|nero|neroaacenc|helix|fraunhofer|fhg)",
+      "(?i)^\\s*(itunes|apple|x lossless|xld|dbpoweramp|foobar2000|exact audio copy|eac)",
+      "(?i)^\\s*(mediainfo|gpac|mp4box|bento4|atomicparsley|taglib|mkvmerge|libebur128|libsoxr|sox|gstreamer)",
+      "(?i)^\\s*(sound forge|wavelab|audacity|adobe audition|pro tools|logic pro|cubase|steinberg|reaper|goldwave|samplitude|izotope)"
+    ],
+    "tsse": [
+      "(?i)^\\s*(lavf|lavc|libav|ffmpeg|ffprobe)",
+      "(?i)^\\s*(lame|libmp3lame|libflac|reference libflac|flake|libvorbis|libopus|opusenc|libopusenc)",
+      "(?i)^\\s*(qaac|fdkaac|nero|neroaacenc|helix|fraunhofer|fhg)",
+      "(?i)^\\s*(itunes|apple|x lossless|xld|dbpoweramp|foobar2000|exact audio copy|eac)",
+      "(?i)^\\s*(mediainfo|gpac|mp4box|bento4|atomicparsley|taglib|mkvmerge|libebur128|libsoxr|sox|gstreamer)",
+      "(?i)^\\s*(sound forge|wavelab|audacity|adobe audition|pro tools|logic pro|cubase|steinberg|reaper|goldwave|samplitude|izotope)"
+    ],
+    "encodersettings": [
+      "(?i)^\\s*(lavf|lavc|libav|ffmpeg|ffprobe)",
+      "(?i)^\\s*(lame|libmp3lame|libflac|reference libflac|flake|libvorbis|libopus|opusenc|libopusenc)",
+      "(?i)^\\s*(qaac|fdkaac|nero|neroaacenc|helix|fraunhofer|fhg)",
+      "(?i)^\\s*(itunes|apple|x lossless|xld|dbpoweramp|foobar2000|exact audio copy|eac)",
+      "(?i)^\\s*(mediainfo|gpac|mp4box|bento4|atomicparsley|taglib|mkvmerge|libebur128|libsoxr|sox|gstreamer)",
+      "(?i)^\\s*(sound forge|wavelab|audacity|adobe audition|pro tools|logic pro|cubase|steinberg|reaper|goldwave|samplitude|izotope)"
+    ]
+  }
 }
