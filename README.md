@@ -1,10 +1,10 @@
-# Metainfo
+﻿# Metainfo
 
 给 **MetaAudio**（Android 本地音乐标签工具）用的资源仓库。
 
 **这个仓库只管两件事：**
 
-1. **艺术家图片** —— 5 个只做「按艺术家搜图」的插件
+1. **艺术家图片** —— 4 个只做「按艺术家搜图」的插件
 2. **元信息标签规则** —— `rules/tag_rules.json`
 
 **歌词和元信息（专辑艺术家、流派、音轨、碟号、作词、作曲、日期、版权、注释、BPM、ISRC、语言…）
@@ -23,7 +23,7 @@ https://raw.githubusercontent.com/motian16/Metainfo/main/index.json
 
 上游提供 `searchSongs`（搜歌）、`getLyrics`（歌词）、`searchCovers`（封面），
 但**没有艺术家图片能力**（`searchArtistImages`）。MetaAudio 的「刮削艺术家图片」依赖这个能力，
-所以这里放 5 个**只实现 `searchArtistImages`** 的小插件 ——
+所以这里放 4 个**只实现 `searchArtistImages`** 的小插件 ——
 它们里面**没有**任何搜歌、歌词、封面的代码，和上游插件是并存关系，不是替代关系。
 
 装上之后：
@@ -52,9 +52,10 @@ plugins/
     netease.zip             com.metaaudio.artistimage.netease
     kugou.zip               com.metaaudio.artistimage.kugou
     apple.zip               com.metaaudio.artistimage.apple
-    musicbrainz.zip         com.metaaudio.artistimage.musicbrainz
-plugins-src/                五个插件的源码（仅供参考）
+    apple.zip               com.metaaudio.artistimage.apple
 _参考不上传/                 上游原版包、上游插件副本 —— 都不上传到 GitHub
+
+> MusicBrainz 没有做艺术家图片插件：Cover Art Archive 只支持 release / release-group，/artist/... 返回 400，MusicBrainz 本身不提供艺术家头像。与其写一张错的图进去，不如少一个源。
 ```
 
 每个 zip 内部是一层同名目录（`qq/manifest.json`、`qq/source.js`…），这是插件安装器认的结构。
@@ -107,7 +108,7 @@ _参考不上传/                 上游原版包、上游插件副本 —— �
 1. **设置 → 插件 → 插件仓库** → 点右侧编辑图标 → 填上面的 `index.json` 地址 → 保存
 2. 点右侧刷新图标 → 检查更新（会同时拉到上游的歌词/元信息插件和这里的艺术家图片插件）
 3. **设置 → 刮削 → 标签识别规则** → 填 `rules/tag_rules.json` 的地址 → 导入
-4. **设置 → 刮削 → 艺术家图片优先级** → 给这 5 个插件排序
+4. **设置 → 刮削 → 艺术家图片优先级** → 给这 4 个插件排序
 
 ### 关于写入
 
