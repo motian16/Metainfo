@@ -1,0 +1,566 @@
+{
+  "_comment": "元信息标签识别规则。按【组】组织，每组里按【键名】【值】匹配。keyInfo 给键名（alias 是中文别名）；价值信息用 valueInfoPatterns 按值的类型复用。",
+  "rulesVersion": 5,
+  "rulesUpdatedAt": "2026-10-09",
+  "source": "内置",
+
+  "standard": {
+    "_comment": "标准标签白名单：软件标准字段里已经能看到的不算自定义标签。歌曲名/专辑/艺术家/艺术家图/封面/专辑艺术家/音轨碟号/版权/注释/语言/日期/作曲/作词/BPM/ISRC，另加软件别处已显示的流派与歌词。",
+    "keys": [
+      "title", "tit2", "artist", "tpe1", "albumartist", "album_artist", "tpe2", "album", "talb",
+      "composer", "tcom", "lyricist", "text", "writer", "genre", "tcon", "tracknumber", "track",
+      "trck", "discnumber", "disc", "disk", "tpos", "lyrics", "unsyncedlyrics", "uslt", "picture", "apic",
+      "cover", "coverart", "comment", "comm", "description", "date", "year", "tdrc", "tyer",
+      "language", "tlan", "copyright", "tcop", "cprt", "tpub", "publisher", "label", "encoder", "tenc",
+      "encodedby", "encoded_by", "tsse", "tit3", "subtitle", "popm", "rating", "bpm", "tbpm",
+      "isrc", "tsrc", "grouping", "titr", "compilation", "tcmp", "gapless",
+      "conductor", "tpe3", "remixer", "tpe4", "arranger", "engineer", "producer", "mixer",
+      "media", "tmed", "mood", "originalartist", "tope", "originalalbum", "toal",
+      "originalyear", "originaldate", "sorttitle", "sortartist", "sortalbum", "sortcomposer",
+      "asin", "catalognumber", "catno",
+
+      "aart", "album artist", "album artist sort order",
+      "lyric", "lyricseng", "lyrics_translation", "unsynced lyrics", "syncedlyrics",
+      "copyrightinfo", "copyrights", "copyright_info",
+      "discid", "disctotal", "tracktotal", "totaltracks", "totaldiscs",
+      "tyerdat", "tdat", "time", "trkn", "trk",
+      "vendor", "style", "subgenre", "contentgroup", "itunesadvisory",
+      "replaygain", "replaygain_track_gain", "replaygain_track_peak", "replaygain_album_gain",
+      "replaygain_album_peak", "replaygain_reference_loudness", "replaygain_write",
+      "©alb", "©art", "©day", "©gen", "©lyr", "©nam", "©too", "©cmt", "©wrt", "©grp",
+      "©mvn", "©mvi", "©mvc", "©prd", "©swr", "©enc", "©dir", "©cpy", "©des", "©aut",
+      "covr", "desc", "ldes", "tmpo", "cpil", "pgap", "rtng", "soal", "soar", "sonm",
+      "soco", "sosn", "tvsh", "tven", "tvsn", "tves", "catg", "keyw", "purl", "egid",
+      "xid ", "akid", "sfid", "atid", "plid", "cnid", "geid", "cmid",
+      "com.apple.itunes:isrc", "com.apple.itunes:label",
+      "com.android.version", "com.android.manufacturer", "com.android.model",
+      "upc", "barcode"
+    ]
+  },
+
+  "groups": [
+    {
+      "id": "netease",
+      "name": "网易云音乐",
+      "kind": "platform",
+      "keys": ["163 key(don't modify):", "163 key", "neteasecloudmusic"],
+      "keyInfo": {
+        "163 key(don't modify):": {
+          "alias": "网易云解密残留",
+          "type": "NCM 加密残留",
+          "description": "网易云 NCM 解密后残留的前缀。导出成 MP3/FLAC 时会被保留，是识别网易云来源最可靠的标记。"
+        },
+        "neteasecloudmusic": {
+          "alias": "网易云解密盐值",
+          "type": "NCM 加密残留",
+          "description": "NCM 解密流程里的硬编码干扰盐。出现它就说明文件曾经过 NCM 解密。"
+        }
+      }
+    },
+    {
+      "id": "qqmusic",
+      "name": "QQ 音乐",
+      "kind": "platform",
+      "keys": ["qmquality"],
+      "keyPatterns": ["^QMQUALITY$"],
+      "valuePatterns": ["^Premium-[A-Za-z0-9.-]+$"],
+      "keyInfo": {
+        "qmquality": {
+          "alias": "QQ音乐音质",
+          "type": "QQ 音乐私有音质标签",
+          "description": "在 QQ 音乐里按哪一档音质下载的。只说明来源档位，不代表文件真有母带水准（臻品母带是算法增强）。"
+        }
+      },
+      "valueLabels": {
+        "premium-master": "臻品母带",
+        "premium-atmos-51": "臻品全景声 5.1",
+        "premium-atmos-2": "臻品全景声 2.0",
+        "premium-atmos": "臻品全景声",
+        "premium-surround": "臻品环绕声",
+        "premium-hires": "臻品音质",
+        "hi-res": "Hi-Res 无损",
+        "hires": "Hi-Res 无损",
+        "sq": "无损品质",
+        "lossless": "无损品质",
+        "hq": "高品质",
+        "high": "高品质",
+        "standard": "标准品质",
+        "lq": "流畅品质"
+      }
+    },
+    {
+      "id": "kugou",
+      "name": "酷狗音乐",
+      "kind": "platform",
+      "keys": ["kghash", "extend", "quality", "txxx:track", "txxx:year"],
+      "keyPatterns": ["^KGHASH$", "^EXTEND$", "^QUALITY$"],
+      "valuePatterns": ["^viper_", "ALBUMID", "AUTHORID", "MIXSONGID"],
+      "keyInfo": {
+        "kghash": {
+          "alias": "酷狗哈希",
+          "type": "酷狗私有哈希",
+          "description": "酷狗给每个音频资源分配的 32 位哈希，对应它 API 的 FileHash，可反查直链、比特率、时长。"
+        },
+        "extend": {
+          "alias": "酷狗私有数据",
+          "type": "酷狗私有 JSON",
+          "description": "含 ALBUMID（专辑）、AUTHORID（作者）、MIXSONGID（混音）三个内部 ID。"
+        },
+        "quality": {
+          "alias": "酷狗音质",
+          "type": "酷狗私有音质标识",
+          "description": "下载时使用的酷狗音效档位。"
+        }
+      },
+      "valueLabels": { "viper_clear": "蝰蛇超清" }
+    },
+    {
+      "id": "kuwo",
+      "name": "酷我音乐",
+      "kind": "platform",
+      "keyPatterns": [],
+      "valuePatterns": ["^kuwo$", "^酷我音乐$"]
+    },
+    {
+      "id": "bilibili",
+      "name": "哔哩哔哩",
+      "kind": "platform",
+      "keys": [
+        "compatible_brands", "major_brand", "minor_version",
+        "hasvideo", "haskeyframes", "hasaudio", "hasmetadata", "canseektoend",
+        "datasize", "videosize", "audiosize",
+        "lasttimestamp", "lastkeyframetimestamp", "lastkeyframelocation",
+        "metadatacreator"
+      ],
+      "valuePatterns": ["Bilibili", "XCoder", "VXCode", "XCode Worker", "^(iso5|isom|mp42|dash)$", "(dsms|msixdash)"],
+      "keyInfo": {
+        "major_brand": {
+          "alias": "容器主品牌",
+          "type": "MP4 容器主品牌",
+          "description": "ftyp box 的主品牌，标识最适合解析这个文件的规范。"
+        },
+        "minor_version": {
+          "alias": "容器次版本",
+          "type": "MP4 容器次版本号",
+          "description": "主品牌的补充版本信息，通常是很小的整数。"
+        },
+        "compatible_brands": {
+          "alias": "兼容品牌",
+          "type": "MP4 兼容品牌列表",
+          "description": "ftyp box 里列出的兼容规范。含 dash/dsms 说明来自流媒体，文件多半原本是视频。"
+        },
+        "hasvideo": {
+          "alias": "含视频流",
+          "type": "视频容器残留",
+          "description": "true 表示文件里有视频流，也就是视频改名成音频。"
+        },
+        "metadatacreator": {
+          "alias": "元数据创建器",
+          "type": "B 站转码工具签名",
+          "description": "B 站转码工具写入的创建器版本号。"
+        }
+      },
+      "valueLabels": {
+        "iso5": "ISO 基础媒体格式第 5 版",
+        "isom": "ISO 基础媒体格式",
+        "mp42": "MP4 第 2 版",
+        "dash": "DASH 流媒体",
+        "true": "是",
+        "false": "否"
+      }
+    },
+    {
+      "id": "mora",
+      "name": "mora",
+      "kind": "platform",
+      "keys": ["organization", "phonetic_title"],
+      "keyPatterns": ["^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"],
+      "valuePatterns": ["JASRAC", "TOY'S FACTORY"],
+      "_comment": "mora 的 7 个 UUID 键名由 keyPatterns 命中，共用一份键名说明；每个值的含义再用 valueInfoPatterns 按值匹配 —— 不为每个 UUID 各写一份。",
+      "keyInfo": {
+        "organization": {
+          "alias": "厂牌",
+          "type": "版权组织或厂牌",
+          "description": "JASRAC 是日本音乐著作权协会，后面跟的是唱片公司。"
+        },
+        "phonetic_title": {
+          "alias": "注音标题",
+          "type": "注音标题",
+          "description": "非拉丁语标题的读音写法，日本平台常写。"
+        }
+      },
+      "keyInfoPatterns": [
+        {
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+          "alias": "mora 内部数据",
+          "type": "mora 平台私有标签",
+          "description": "mora（日本索尼音乐旗下的音乐下载站）用 UUID 键名存放平台内部数据，具体含义看值。"
+        }
+      ],
+      "valueInfoPatterns": [
+        {
+          "valuePattern": "^\\d{4,12}$",
+          "alias": "编号",
+          "type": "mora 内部编号",
+          "description": "mora 平台的内部编号，用来在 mora 客户端里定位这张专辑或这首曲目。"
+        },
+        {
+          "valuePattern": "^(TF|JPTF|VE5HD|JPVI)[A-Za-z0-9-]{4,14}$",
+          "alias": "录音代码",
+          "type": "录音代码 / ISRC 类标识",
+          "description": "日本地区的录音代码。前缀 TFCC / JPTF / VE5HD / JPVI 可以反查发行方与录音版本。"
+        },
+        {
+          "valuePattern": "^(JASRAC|TOY'S FACTORY|Victor|Sony)",
+          "alias": "厂牌",
+          "type": "版权组织或厂牌",
+          "description": "版权管理组织或唱片公司名称。"
+        }
+      ]
+    },
+    {
+      "id": "tidal",
+      "name": "Tidal",
+      "kind": "platform",
+      "keys": ["audioquality", "mediaMetadata.tags", "track_peak_amplitude", "replay_gain_write"],
+      "valuePatterns": ["LOSSLESS", "HIRES_LOSSLESS"],
+      "keyInfo": {
+        "audioquality": {
+          "alias": "Tidal 音质",
+          "type": "Tidal 音质等级",
+          "description": "LOSSLESS 是 FLAC 无损（最高 1411kbps/16bit），HIRES_LOSSLESS 是 HiRes FLAC（最高 192kHz/24bit）。"
+        }
+      },
+      "valueLabels": { "lossless": "无损", "hires_lossless": "高解析无损" }
+    },
+    {
+      "id": "applemusic",
+      "name": "Apple Music / iTunes",
+      "kind": "platform",
+      "keys": ["contentrating"],
+      "keyInfo": {
+        "contentrating": {
+          "alias": "家长分级",
+          "type": "家长建议分级",
+          "description": "Apple 的内容分级标记。"
+        }
+      },
+      "valueLabels": {
+        "0": "无分级",
+        "1": "家长建议（不含粗口）",
+        "2": "家长建议（含粗口）",
+        "4": "仅限成人"
+      }
+    },
+    {
+      "id": "voicememo",
+      "name": "苹果语音备忘录",
+      "kind": "platform",
+      "keys": ["voice-memo-uuid"],
+      "keyPatterns": ["voice-memo-uuid"],
+      "valuePatterns": ["com\\.apple\\.VoiceMemos", "cdefver"],
+      "keyInfo": {
+        "voice-memo-uuid": {
+          "alias": "语音备忘录 ID",
+          "type": "苹果语音备忘录内部 UUID",
+          "description": "苹果『语音备忘录』写入的随机标识，不含个人信息，可用来关联同一段录音的不同副本。"
+        }
+      }
+    },
+    {
+      "id": "qobuz",
+      "name": "Qobuz",
+      "kind": "platform",
+      "keyPatterns": ["^QOBUZ_"],
+      "valuePatterns": ["qobuz-dl"],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^QOBUZ_",
+          "alias": "Qobuz ID",
+          "type": "Qobuz 平台标识",
+          "description": "Qobuz 的专辑/音轨/艺术家/厂牌 ID 或来源地址，保留原始发行信息。"
+        }
+      ]
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube / YouTube Music",
+      "kind": "platform",
+      "keyPatterns": ["^YOUTUBE_VIDEO_ID$", "^youtube_video_id$"],
+      "valuePatterns": ["youtube\\.com", "youtu\\.be"],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^YOUTUBE_VIDEO_ID$",
+          "alias": "YouTube 视频 ID",
+          "type": "下载工具写入的视频 ID",
+          "description": "原始 YouTube 视频 ID，用于反查来源页面。"
+        }
+      ]
+    },
+    {
+      "id": "soundcloud",
+      "name": "SoundCloud",
+      "kind": "platform",
+      "keys": ["source_platform"],
+      "valuePatterns": ["soundcloud\\.com"]
+    },
+    {
+      "id": "bandcamp",
+      "name": "Bandcamp",
+      "kind": "platform",
+      "valuePatterns": ["bandcamp\\.com"]
+    },
+    {
+      "id": "beatport",
+      "name": "Beatport",
+      "kind": "platform",
+      "keyPatterns": ["^BEATPORT_"],
+      "valuePatterns": ["beatport\\.com"]
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "kind": "platform",
+      "valuePatterns": ["amazon\\."]
+    },
+    {
+      "id": "spotify",
+      "name": "Spotify（第三方工具写入）",
+      "kind": "platform",
+      "valuePatterns": ["open\\.spotify\\.com", "spotify:"]
+    },
+    {
+      "id": "musicbrainz",
+      "name": "MusicBrainz",
+      "kind": "platform",
+      "keyPatterns": ["^MUSICBRAINZ_", "^MusicBrainz/"],
+      "valuePatterns": ["musicbrainz\\.org"],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^(MUSICBRAINZ_|MusicBrainz/)",
+          "alias": "MusicBrainz ID",
+          "type": "MusicBrainz 数据库标识",
+          "description": "录音、发行、艺术家、作品等实体的唯一 ID。出现这些字段说明元数据经过 MusicBrainz / Picard 处理。"
+        }
+      ]
+    },
+    {
+      "id": "acoustid",
+      "name": "AcoustID",
+      "kind": "platform",
+      "keyPatterns": ["^ACOUSTID_"],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^ACOUSTID_",
+          "alias": "音频指纹",
+          "type": "AcoustID 音频指纹",
+          "description": "基于 Chromaprint 的音频指纹识别结果，不是普通音乐标签。"
+        }
+      ]
+    },
+    {
+      "id": "musicip",
+      "name": "MusicIP / MusicMagic",
+      "kind": "platform",
+      "keyPatterns": ["^MUSICIP_", "^MusicMagic"],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^(MUSICIP_|MusicMagic)",
+          "alias": "音频指纹",
+          "type": "MusicIP 音频指纹",
+          "description": "较早的音频识别体系，属于历史残留，旧音乐库里还能见到。"
+        }
+      ]
+    },
+    {
+      "id": "discogs",
+      "name": "Discogs",
+      "kind": "platform",
+      "keyPatterns": ["^DISCOGS_"],
+      "valuePatterns": ["discogs\\.com"],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^DISCOGS_",
+          "alias": "Discogs ID",
+          "type": "Discogs 发行物标识",
+          "description": "Discogs 的发行版本 / Master 条目 ID 或页面地址。"
+        }
+      ]
+    },
+    {
+      "id": "beets",
+      "name": "beets",
+      "kind": "platform",
+      "keyPatterns": ["^mb_"],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^mb_",
+          "alias": "MusicBrainz ID",
+          "type": "beets 音乐库字段",
+          "description": "beets 使用的 MusicBrainz ID 字段。"
+        }
+      ]
+    },
+
+    {
+      "id": "ffmpeg",
+      "name": "FFmpeg",
+      "kind": "tool",
+      "valuePatterns": ["Lavf\\d{2}\\.", "Lavc\\d{2}\\."],
+      "keyInfo": {
+        "encoder": {
+          "alias": "编码器",
+          "type": "转码工具签名",
+          "description": "写入文件的封装库。Lavf58 这类版本号对应 FFmpeg 的某个大版本，可推断转码时间。"
+        },
+        "tsse": {
+          "alias": "编码软件",
+          "type": "转码工具签名",
+          "description": "ID3v2 的『软件/设置』帧，FFmpeg 把 Lavf 版本写在这里。"
+        }
+      }
+    },
+    {
+      "id": "eac",
+      "name": "ExactAudioCopy",
+      "kind": "tool",
+      "valuePatterns": ["ExactAudioCopy"]
+    },
+    {
+      "id": "daw",
+      "name": "专业音频工作站 / 影视素材",
+      "kind": "tool",
+      "keys": ["umid", "originator_reference", "time_reference", "event"],
+      "keyPatterns": ["^(UMID|ORIGINATOR_REFERENCE|TIME_REFERENCE|EVENT)$"],
+      "valuePatterns": ["Pro Tools", "Logic Pro X", "0x060A2B34"],
+      "keyInfo": {
+        "umid": {
+          "alias": "素材唯一标识",
+          "type": "SMPTE UMID",
+          "description": "广播级影视素材的唯一标识，以 0x060A2B34 开头。出现在音乐文件里通常说明音频是从影视素材提取的。"
+        },
+        "originator_reference": {
+          "alias": "素材来源引用",
+          "type": "专业音频元数据",
+          "description": "Pro Tools 等工作站导出时写的媒体管理字段，用于追踪素材来自哪个工程。"
+        },
+        "time_reference": {
+          "alias": "时间参考",
+          "type": "专业音频元数据",
+          "description": "素材在原始工程里的时间位置。"
+        },
+        "event": {
+          "alias": "活动标记",
+          "type": "活动 / 事件标记",
+          "description": "同人音乐里常见的活动代号，C + 数字表示某一届 Comic Market。"
+        }
+      }
+    },
+    {
+      "id": "ytdlp",
+      "name": "yt-dlp / youtube-dl",
+      "kind": "tool",
+      "valuePatterns": ["yt-dlp", "youtube-dl"],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^(webpage_url|webpage_url_domain|original_url|extractor|purl)$",
+          "alias": "来源地址",
+          "type": "下载工具来源字段",
+          "description": "下载工具记录的原始页面地址或提取器名，看域名就能判断真正的来源平台。"
+        }
+      ]
+    },
+
+    {
+      "id": "unknown_image",
+      "name": "未知图片",
+      "kind": "image",
+      "_comment": "除了封面和艺术家图之外的图片类标签。判定只看值是不是图片，不看键名，所以这里不写 keyInfoPatterns —— 写一条 `.*` 会把所有未知键都吞掉。"
+    }
+  ],
+
+  "valueLabels": {
+    "byValue": {
+      "kuwo": "酷我音乐",
+      "neteasecloudmusic": "网易云音乐（NCM 解密盐值）",
+      "true": "是",
+      "false": "否"
+    }
+  },
+
+  "valueLabelPatterns": {
+    "_comment": "带捕获组的译文，$1/$2… 换成捕获组。",
+    "patterns": [
+      { "keyPattern": "^EVENT$", "valuePattern": "^[Cc](\\d{1,3})$", "label": "Comic Market $1（第 $1 届）" }
+    ]
+  },
+
+  "valueInfoPatterns": {
+    "_comment": "按**值的类型**给说明，跨键复用。详情页优先用这里匹配到的说明，匹配不到才退回键名说明。",
+    "patterns": [
+      { "valuePattern": "^0x060A2B34", "alias": "SMPTE UMID", "type": "SMPTE 素材标识", "description": "32 字节广播级素材唯一标识。" },
+      { "valuePattern": "^[0-9a-fA-F]{32}$", "alias": "哈希值", "type": "哈希值", "description": "32 位十六进制哈希，用于校验或匹配资源。" },
+      { "valuePattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", "alias": "UUID", "type": "内部 UUID", "description": "平台内部使用的唯一标识，本身不含个人信息。" },
+      { "valuePattern": "^\\{\\[?.*[\\}\\]]$", "alias": "JSON 数据", "type": "平台私有 JSON", "description": "平台写入的结构化私有数据。" },
+      { "valuePattern": "^[A-Za-z0-9+/]{100,200}={0,2}$", "alias": "加密残留", "type": "加密元数据残留", "description": "一长串 Base64，解码后通常是平台内部字段。", "keyPattern": "^(163 key|description)" }
+    ]
+  },
+
+  "valueAliases": {
+    "_comment": "值的短别名（列表右侧显示用的就是它）。从上到下第一个命中生效。",
+    "aliases": [
+      { "label": "UMID", "valuePattern": "^0x060A2B34" },
+      { "label": "哈希值", "valuePattern": "^[0-9a-fA-F]{32}$" },
+      { "label": "UUID", "valuePattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$" },
+      { "label": "录音代码", "valuePattern": "^(TF|JPTF|VE5HD|JPVI)[A-Za-z0-9-]{4,14}$" },
+      { "label": "编号", "valuePattern": "^\\d{1,12}$" },
+      { "label": "ISRC", "valuePattern": "^[A-Z]{2}[A-Z0-9]{3}\\d{7}$" },
+      { "label": "JSON", "valuePattern": "^[\\{\\[].*[\\}\\]]$" },
+      { "label": "加密残留", "valuePattern": "^[A-Za-z0-9+/]{60,}={0,2}$" },
+      { "label": "站点 URL", "valuePattern": "^(https?://|www\\.)" },
+      { "label": "时间码", "valuePattern": "^\\d{2}:\\d{2}:\\d{2}[:;.]\\d{2,3}$" },
+      { "label": "日期", "valuePattern": "^\\d{4}-\\d{2}-\\d{2}" }
+    ]
+  },
+
+  "keyInfo": {
+    "_comment": "不属于任何组的通用键名说明。",
+    "txxx": {
+      "alias": "自定义帧",
+      "type": "ID3v2 用户自定义文本帧",
+      "description": "ID3v2 预留的自定义帧，各平台和工具都往里写东西。完整键名要看描述（TXXX:major_brand）。"
+    },
+    "woar": {
+      "alias": "官方网页",
+      "type": "ID3v2 标准帧",
+      "description": "Official artist/performer webpage，规范要求值是官方页面地址。值里是资源站地址时，多半是下载站顺手写进去的。"
+    },
+    "replaygain_track_peak": {
+      "alias": "音轨峰值",
+      "type": "ReplayGain 响度",
+      "description": "超过 1.0 表示转码前已削波，是二次转码的典型特征。"
+    },
+    "replaygain_track_gain": {
+      "alias": "音轨增益",
+      "type": "ReplayGain 响度",
+      "description": "回放时的音量补偿值。"
+    },
+    "tyerdat": {
+      "alias": "日期",
+      "type": "ID3v2.3 日期帧组合",
+      "description": "TYER（年份）与 TDAT（日期）合并后的录音/发行日期。"
+    }
+  },
+
+  "hints": [
+    { "id": "site-url", "label": "站点 URL", "valuePattern": "(https?://|www\\.|\\.com|\\.cn|\\.net|t\\.me)" },
+    { "id": "woar-url", "label": "网页地址帧", "keyPattern": "^(WOAR|PURL|WXXX)$" },
+    { "id": "base64", "label": "加密残留", "valuePattern": "^[A-Za-z0-9+/]{100,200}={0,2}$" },
+    { "id": "json", "label": "私有 JSON", "valuePattern": "^[\\{\\[].*[\\}\\]]$" },
+    { "id": "uuid", "label": "内部 UUID", "valuePattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$" },
+    { "id": "hash32", "label": "哈希值", "valuePattern": "^[0-9a-fA-F]{32}$" },
+    { "id": "umid", "label": "SMPTE UMID", "valuePattern": "^0x060A2B34" },
+    { "id": "audio-workstation", "label": "专业音频素材字段", "keyPattern": "^(ORIGINATOR_REFERENCE|TIME_REFERENCE|EVENT|UMID)$" },
+    { "id": "cd-rip", "label": "CD 抓轨信息", "keyPattern": "^(DISCID|disctotal|tracktotal)$" }
+  ]
+}
