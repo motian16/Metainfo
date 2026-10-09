@@ -1,4 +1,4 @@
-{
+﻿{
   "schema": 1,
   "name": "MetaAudio 资源",
   "updatedAt": "2026-10-09",
@@ -30,12 +30,6 @@
       "id": "com.metaaudio.artistimage.apple",
       "name": "Apple Music 艺术家图片",
       "file": "plugins/apple.zip",
-      "versionCode": 1
-    },
-    {
-      "id": "com.metaaudio.artistimage.musicbrainz",
-      "name": "MusicBrainz 艺术家图片",
-      "file": "plugins/musicbrainz.zip",
       "versionCode": 1
     }
   ]
