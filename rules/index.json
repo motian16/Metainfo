@@ -5,6 +5,6 @@
   "version": 5,
   "updatedAt": "2026-10-09",
   "sha256": "8d2b961177b394979b993020b18b80aa92c21e52de5e11f72caca1f20811749f",
-  "note": "软件不再内置这份规则。用户在「设置 - 刮削 - 标签识别规则」里填入 raw 地址即可导入；导入成功后立即生效，且下次启动仍然使用导入的那一份。sha256 可以抄到客户端的「规则校验值」里，或者直接订阅本仓库的 index.json（客户端会自动采用 rules.sha256）。",
+  "note": "软件不再内置这份规则。客户端订阅本仓库的 index.json 后，点「更新订阅」会自动下载这一份、按 sha256 校验后立即生效，下次启动继续用；App 里没有手填规则地址的入口，也不能从本地文件导入。装好后规则文件在 Android/data/<包名>/files/tag_rules.json。",
   "format": "group/key/value：standard.keys 是标准标签；groups[] 每项带 kind（platform|tool|image）、keys、keyPatterns、valuePatterns、keyInfo、valueLabels 等。"
 }

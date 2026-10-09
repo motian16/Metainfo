@@ -2,11 +2,60 @@
   "schema": 1,
   "name": "渊の插件源",
   "updatedAt": "2026-10-10",
-  "note": "插件包放在 Release 里，plugins/ 是解压后的源码。规则文件可直接导入。",
-  "rules": "rules/tag_rules.json",
+  "note": "订阅这一条地址即可：更新时会一并装上「元信息源」与「艺术家图源」，并自动更新标签识别规则。元信息源（kind=meta）直接指向 Lyrico-Plugins 的发布包，本仓库不存放它们的源码；艺术家图源（kind=artistimage）的插件包放在本仓库的 Release 里，源码在 plugins/ 下；标签识别规则在 rules/ 下，rules.sha256 用于校验。",
+  "rules": {
+    "file": "rules/tag_rules.json",
+    "sha256": "8d2b961177b394979b993020b18b80aa92c21e52de5e11f72caca1f20811749f"
+  },
   "plugins": [
     {
+      "id": "com.qqmusic.source",
+      "kind": "meta",
+      "name": "QQ音乐",
+      "versionName": "0.4.2",
+      "versionCode": 8,
+      "url": "https://github.com/Replica0110/Lyrico-Plugins/releases/download/v0.4.0/com.qqmusic.source-0.4.2.zip",
+      "sha256": "29bdf2d88e304c2e8ee5968cf82d07199e368f839cd9fc8231129cb5da209b63"
+    },
+    {
+      "id": "com.neteasecloudmusic.source",
+      "kind": "meta",
+      "name": "网易云音乐",
+      "versionName": "0.4.1",
+      "versionCode": 9,
+      "url": "https://github.com/Replica0110/Lyrico-Plugins/releases/download/v0.4.0/com.neteasecloudmusic.source-0.4.1.zip",
+      "sha256": "11f7b1515b4575cb89ec766feaad7de34c08c32963a2a42df69476e2ed9517c0"
+    },
+    {
+      "id": "com.applemusic.source",
+      "kind": "meta",
+      "name": "Apple Music",
+      "versionName": "0.4.1",
+      "versionCode": 8,
+      "url": "https://github.com/Replica0110/Lyrico-Plugins/releases/download/v0.4.0/com.applemusic.source-0.4.1.zip",
+      "sha256": "a9ab6a2b923af1788ea19d7711ce53d567a816f2fb6df8cd6020fa8e5b07ac72"
+    },
+    {
+      "id": "com.kugou.source",
+      "kind": "meta",
+      "name": "酷狗音乐",
+      "versionName": "0.4.1",
+      "versionCode": 7,
+      "url": "https://github.com/Replica0110/Lyrico-Plugins/releases/download/v0.4.0/com.kugou.source-0.4.1.zip",
+      "sha256": "542311f2efb6184c96ce75364bf764bf41ba427ef277966a34e1761d486f5242"
+    },
+    {
+      "id": "com.musicbrainz.source",
+      "kind": "meta",
+      "name": "MusicBrainz",
+      "versionName": "1.2.1",
+      "versionCode": 5,
+      "url": "https://github.com/Replica0110/Lyrico-Plugins/releases/download/v0.4.0/com.musicbrainz.source-1.2.1.zip",
+      "sha256": "f77f361f48a91423225a7ecbccdb99c48798b529c49c9e95259bf1b626c3711a"
+    },
+    {
       "id": "com.metaaudio.artistimage.qq",
+      "kind": "artistimage",
       "name": "QQ 音乐 艺术家图片",
       "versionName": "1.0.0",
       "versionCode": 1,
@@ -16,6 +65,7 @@
     },
     {
       "id": "com.metaaudio.artistimage.netease",
+      "kind": "artistimage",
       "name": "网易云音乐 艺术家图片",
       "versionName": "1.0.0",
       "versionCode": 1,
@@ -24,22 +74,24 @@
       "sha256": "e1ef24abbbe28c91ef13d806585d3141c7b8835a8ddc7de8808283f291d90657"
     },
     {
-      "id": "com.metaaudio.artistimage.kugou",
-      "name": "酷狗音乐 艺术家图片",
-      "versionName": "1.0.0",
-      "versionCode": 1,
-      "url": "https://github.com/motian16/Metainfo/releases/download/v1/com.metaaudio.artistimage.kugou.zip",
-      "src": "https://github.com/motian16/Metainfo/tree/main/plugins/kugou",
-      "sha256": "06c19ef81a57968f231c21014aceccf52c3ecfc084f15fbdcdc2cf39697d6dff"
-    },
-    {
       "id": "com.metaaudio.artistimage.apple",
+      "kind": "artistimage",
       "name": "Apple Music 艺术家图片",
       "versionName": "1.0.0",
       "versionCode": 1,
       "url": "https://github.com/motian16/Metainfo/releases/download/v1/com.metaaudio.artistimage.apple.zip",
       "src": "https://github.com/motian16/Metainfo/tree/main/plugins/apple",
       "sha256": "ae1718a19d4d6bffd87823f76b5e0843d0eb0475f08bf2b380e292e40c2f5ec3"
+    },
+    {
+      "id": "com.metaaudio.artistimage.kugou",
+      "kind": "artistimage",
+      "name": "酷狗音乐 艺术家图片",
+      "versionName": "1.0.0",
+      "versionCode": 1,
+      "url": "https://github.com/motian16/Metainfo/releases/download/v1/com.metaaudio.artistimage.kugou.zip",
+      "src": "https://github.com/motian16/Metainfo/tree/main/plugins/kugou",
+      "sha256": "06c19ef81a57968f231c21014aceccf52c3ecfc084f15fbdcdc2cf39697d6dff"
     }
   ]
 }
