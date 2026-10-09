@@ -1,36 +1,43 @@
-﻿{
+{
   "schema": 1,
   "name": "MetaAudio 资源",
   "updatedAt": "2026-10-09",
-  "note": "软件里「设置 - 插件 - 插件仓库」只填这一条地址即可。",
+  "note": "软件里「设置 - 插件 - 插件仓库」只填这一条地址即可。插件包与标签规则的 sha256 是可选字段：写了客户端就逐字校验（对不上就换镜像、全都不行就报「下载内容校验失败，可能被中间人篡改」），没写照旧能用。改了任何 zip 或 tag_rules.json 都必须同步更新这里对应的 sha256。",
   "include": [
     "https://api.github.com/repos/Replica0110/Lyrico-Plugins/releases/latest"
   ],
-  "rules": "rules/tag_rules.json",
+  "rules": {
+    "file": "rules/tag_rules.json",
+    "sha256": "8d2b961177b394979b993020b18b80aa92c21e52de5e11f72caca1f20811749f"
+  },
   "plugins": [
     {
       "id": "com.metaaudio.artistimage.qq",
       "name": "QQ 音乐 艺术家图片",
       "file": "plugins/qq.zip",
-      "versionCode": 1
+      "versionCode": 1,
+      "sha256": "4e8244dcc61c8cff00a3c88ecc2c979a85ca0017beb697216c9d9882941bddbf"
     },
     {
       "id": "com.metaaudio.artistimage.netease",
       "name": "网易云音乐 艺术家图片",
       "file": "plugins/netease.zip",
-      "versionCode": 1
+      "versionCode": 1,
+      "sha256": "e1ef24abbbe28c91ef13d806585d3141c7b8835a8ddc7de8808283f291d90657"
     },
     {
       "id": "com.metaaudio.artistimage.kugou",
       "name": "酷狗音乐 艺术家图片",
       "file": "plugins/kugou.zip",
-      "versionCode": 1
+      "versionCode": 1,
+      "sha256": "06c19ef81a57968f231c21014aceccf52c3ecfc084f15fbdcdc2cf39697d6dff"
     },
     {
       "id": "com.metaaudio.artistimage.apple",
       "name": "Apple Music 艺术家图片",
       "file": "plugins/apple.zip",
-      "versionCode": 1
+      "versionCode": 1,
+      "sha256": "ae1718a19d4d6bffd87823f76b5e0843d0eb0475f08bf2b380e292e40c2f5ec3"
     }
   ]
 }
