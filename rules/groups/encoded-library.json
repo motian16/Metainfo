@@ -46,7 +46,26 @@
           "description": "写入这个文件的编码器/函数库厂商字符串，例如 `reference libFLAC 1.3.1 20141125`。同一个文件里出现多个不同的 VENDOR，说明它被别的工具重新封装过。"
         }
       },
-      "_comment": "这一组认「值不合标准」的写入工具签名，以及 VENDOR / TOOL / WRITINGLIBRARY 这类厂商字符串。标准值由顶层 standardValues 判掉，不会显示。"
+      "_comment": "用户要求：值后面的版本号是变量（Lavf57.25.100 / Lavf58.76.100）。单个值不足 10 首、但同一家族合计够 10 首时也合并成一项，点进去直接是曲目，不再开三级列表。",
+      "familyPatterns": [
+        "^Lavf",
+        "^Lavc",
+        "^FFmpeg",
+        "^reference libFLAC",
+        "^libFLAC",
+        "^LAME",
+        "^qaac",
+        "^iTunes",
+        "^MediaInfo",
+        "^Exact Audio Copy",
+        "^EAC",
+        "^Nero",
+        "^freedb",
+        "^GStreamer",
+        "^libVorbis",
+        "^libav"
+      ],
+      "familyMergeMin": 10
     }
   ]
 }

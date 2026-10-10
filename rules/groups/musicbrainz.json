@@ -17,8 +17,33 @@
           "alias": "MusicBrainz ID",
           "type": "MusicBrainz 数据库标识",
           "description": "录音、发行、艺术家、作品等实体的唯一 ID。出现这些字段说明元数据经过 MusicBrainz / Picard 处理。"
+        },
+        {
+          "pattern": "SUBGENRE",
+          "alias": "子流派",
+          "type": "MusicBrainz 扩展元数据",
+          "description": "比流派更细的分类（Picard / MusicBrainz 的 subgenre）。"
+        },
+        {
+          "pattern": "STYLE",
+          "alias": "风格",
+          "type": "MusicBrainz 扩展元数据",
+          "description": "风格标签（Discogs / Picard 的 STYLE），常有多条。"
+        },
+        {
+          "pattern": "COPYRIGHTS",
+          "alias": "版权说明",
+          "type": "MusicBrainz 扩展元数据",
+          "description": "MusicBrainz 的 COPYRIGHTS：这一版的版权归属说明（可多条）。"
+        },
+        {
+          "pattern": "COPYRIGHTINFO",
+          "alias": "版权信息",
+          "type": "MusicBrainz 扩展元数据",
+          "description": "MusicBrainz 的 COPYRIGHTINFO：录音/作品的版权与授权信息。"
         }
-      ]
+      ],
+      "_comment": " 用户要求：SUBGENRE / STYLE / COPYRIGHTS / COPYRIGHTINFO 这类 FLAC 扩展元数据也归本组。 用户要求：SUBGENRE / STYLE / COPYRIGHTS / COPYRIGHTINFO 这类 FLAC 扩展元数据也归本组。"
     }
   ]
 }
