@@ -129,6 +129,26 @@
       "alias": "日期",
       "type": "ID3v2.3 日期帧组合",
       "description": "TYER（年份）与 TDAT（日期）合并后的录音/发行日期。"
+    },
+    "tracktotal": {
+      "alias": "专辑曲目总数",
+      "type": "专辑分轨信息",
+      "description": "这张专辑一共有几首曲目（Vorbis/Picard 的 TRACKTOTAL，等同 TOTALTRACKS）。"
+    },
+    "totaltracks": {
+      "alias": "专辑曲目总数",
+      "type": "专辑分轨信息",
+      "description": "同上：专辑曲目总数。"
+    },
+    "disctotal": {
+      "alias": "专辑碟数",
+      "type": "专辑分轨信息",
+      "description": "这张专辑一共有几张碟（DISCTOTAL，等同 TOTALDISCS）。"
+    },
+    "totaldiscs": {
+      "alias": "专辑碟数",
+      "type": "专辑分轨信息",
+      "description": "同上：专辑碟数。"
     }
   },
   "hints": [

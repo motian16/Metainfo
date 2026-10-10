@@ -5,7 +5,7 @@
     "宿主把分片拉齐后合并成一份完整规则再落盘，合并顺序不影响结果。",
     "加一个新平台 = 加一个 rules/groups/<英文id>.json 并在这里登记。"
   ],
-  "rulesVersion": 9,
+  "rulesVersion": 10,
   "rulesUpdatedAt": "2026-10-10",
   "source": "MetaAudio 公共规则",
   "files": [
@@ -15,7 +15,7 @@
     },
     {
       "file": "shared/labels.json",
-      "sha256": "35e65ea85fbf5fac3004a1ed6eea21c0215328f74060631fa3c0717fd5726e7e"
+      "sha256": "d0b817f6d7d9e26f8d32339edd1dda0e2235478717b4e33951010020c15e4a03"
     },
     {
       "file": "groups/netease.json",
