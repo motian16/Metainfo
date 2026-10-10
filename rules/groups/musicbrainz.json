@@ -1,0 +1,24 @@
+{
+  "groups": [
+    {
+      "id": "musicbrainz",
+      "name": "MusicBrainz",
+      "kind": "platform",
+      "keyPatterns": [
+        "^MUSICBRAINZ_",
+        "^MusicBrainz/"
+      ],
+      "valuePatterns": [
+        "musicbrainz\\.org"
+      ],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^(MUSICBRAINZ_|MusicBrainz/)",
+          "alias": "MusicBrainz ID",
+          "type": "MusicBrainz 数据库标识",
+          "description": "录音、发行、艺术家、作品等实体的唯一 ID。出现这些字段说明元数据经过 MusicBrainz / Picard 处理。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "groups": [
+    {
+      "id": "beatport",
+      "name": "Beatport",
+      "kind": "platform",
+      "keyPatterns": [
+        "^BEATPORT_"
+      ],
+      "valuePatterns": [
+        "beatport\\.com"
+      ]
+    }
+  ]
+}

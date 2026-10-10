@@ -1,0 +1,12 @@
+{
+  "groups": [
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "kind": "platform",
+      "valuePatterns": [
+        "amazon\\."
+      ]
+    }
+  ]
+}

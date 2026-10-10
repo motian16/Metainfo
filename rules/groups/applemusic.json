@@ -1,0 +1,25 @@
+{
+  "groups": [
+    {
+      "id": "applemusic",
+      "name": "Apple Music / iTunes",
+      "kind": "platform",
+      "keys": [
+        "contentrating"
+      ],
+      "keyInfo": {
+        "contentrating": {
+          "alias": "家长分级",
+          "type": "家长建议分级",
+          "description": "Apple 的内容分级标记。"
+        }
+      },
+      "valueLabels": {
+        "0": "无分级",
+        "1": "家长建议（不含粗口）",
+        "2": "家长建议（含粗口）",
+        "4": "仅限成人"
+      }
+    }
+  ]
+}

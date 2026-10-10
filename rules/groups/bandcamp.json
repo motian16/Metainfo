@@ -1,0 +1,12 @@
+{
+  "groups": [
+    {
+      "id": "bandcamp",
+      "name": "Bandcamp",
+      "kind": "platform",
+      "valuePatterns": [
+        "bandcamp\\.com"
+      ]
+    }
+  ]
+}

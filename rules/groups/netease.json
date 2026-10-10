@@ -1,0 +1,26 @@
+{
+  "groups": [
+    {
+      "id": "netease",
+      "name": "网易云音乐",
+      "kind": "platform",
+      "keys": [
+        "163 key(don't modify):",
+        "163 key",
+        "neteasecloudmusic"
+      ],
+      "keyInfo": {
+        "163 key(don't modify):": {
+          "alias": "网易云解密残留",
+          "type": "NCM 加密残留",
+          "description": "网易云 NCM 解密后残留的前缀。导出成 MP3/FLAC 时会被保留，是识别网易云来源最可靠的标记。"
+        },
+        "neteasecloudmusic": {
+          "alias": "网易云解密盐值",
+          "type": "NCM 加密残留",
+          "description": "NCM 解密流程里的硬编码干扰盐。出现它就说明文件曾经过 NCM 解密。"
+        }
+      }
+    }
+  ]
+}

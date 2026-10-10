@@ -1,0 +1,21 @@
+{
+  "groups": [
+    {
+      "id": "musicip",
+      "name": "MusicIP / MusicMagic",
+      "kind": "platform",
+      "keyPatterns": [
+        "^MUSICIP_",
+        "^MusicMagic"
+      ],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^(MUSICIP_|MusicMagic)",
+          "alias": "音频指纹",
+          "type": "MusicIP 音频指纹",
+          "description": "较早的音频识别体系，属于历史残留，旧音乐库里还能见到。"
+        }
+      ]
+    }
+  ]
+}

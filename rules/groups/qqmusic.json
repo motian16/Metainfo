@@ -1,0 +1,42 @@
+{
+  "groups": [
+    {
+      "id": "qqmusic",
+      "name": "QQ 音乐",
+      "kind": "platform",
+      "rightKey": "QMQUALITY",
+      "keys": [
+        "qmquality"
+      ],
+      "keyPatterns": [
+        "^QMQUALITY$"
+      ],
+      "valuePatterns": [
+        "^Premium-[A-Za-z0-9.-]+$"
+      ],
+      "keyInfo": {
+        "qmquality": {
+          "alias": "QQ音乐音质",
+          "type": "QQ 音乐私有音质标签",
+          "description": "在 QQ 音乐里按哪一档音质下载的。只说明来源档位，不代表文件真有母带水准（臻品母带是算法增强）。"
+        }
+      },
+      "valueLabels": {
+        "premium-master": "臻品母带",
+        "premium-atmos-51": "臻品全景声 5.1",
+        "premium-atmos-2": "臻品全景声 2.0",
+        "premium-atmos": "臻品全景声",
+        "premium-surround": "臻品环绕声",
+        "premium-hires": "臻品音质",
+        "hi-res": "Hi-Res 无损",
+        "hires": "Hi-Res 无损",
+        "sq": "无损品质",
+        "lossless": "无损品质",
+        "hq": "高品质",
+        "high": "高品质",
+        "standard": "标准品质",
+        "lq": "流畅品质"
+      }
+    }
+  ]
+}

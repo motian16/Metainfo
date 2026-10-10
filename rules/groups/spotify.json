@@ -1,0 +1,13 @@
+{
+  "groups": [
+    {
+      "id": "spotify",
+      "name": "Spotify（第三方工具写入）",
+      "kind": "platform",
+      "valuePatterns": [
+        "open\\.spotify\\.com",
+        "spotify:"
+      ]
+    }
+  ]
+}

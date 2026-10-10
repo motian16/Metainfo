@@ -1,0 +1,25 @@
+{
+  "groups": [
+    {
+      "id": "youtube",
+      "name": "YouTube / YouTube Music",
+      "kind": "platform",
+      "keyPatterns": [
+        "^YOUTUBE_VIDEO_ID$",
+        "^youtube_video_id$"
+      ],
+      "valuePatterns": [
+        "youtube\\.com",
+        "youtu\\.be"
+      ],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^YOUTUBE_VIDEO_ID$",
+          "alias": "YouTube 视频 ID",
+          "type": "下载工具写入的视频 ID",
+          "description": "原始 YouTube 视频 ID，用于反查来源页面。"
+        }
+      ]
+    }
+  ]
+}

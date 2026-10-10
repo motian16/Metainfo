@@ -1,0 +1,20 @@
+{
+  "groups": [
+    {
+      "id": "acoustid",
+      "name": "AcoustID",
+      "kind": "platform",
+      "keyPatterns": [
+        "^ACOUSTID_"
+      ],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^ACOUSTID_",
+          "alias": "音频指纹",
+          "type": "AcoustID 音频指纹",
+          "description": "基于 Chromaprint 的音频指纹识别结果，不是普通音乐标签。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "_comment": "值别名 / 值说明 / 键说明 / 提示：给界面用的中文说明，按组无关，单独一份。",
+  "valueLabels": {
+    "byValue": {
+      "kuwo": "酷我音乐",
+      "neteasecloudmusic": "网易云音乐（NCM 解密盐值）",
+      "true": "是",
+      "false": "否"
+    }
+  },
+  "valueLabelPatterns": {
+    "_comment": "带捕获组的译文，$1/$2… 换成捕获组。",
+    "patterns": [
+      {
+        "keyPattern": "^EVENT$",
+        "valuePattern": "^[Cc](\\d{1,3})$",
+        "label": "Comic Market $1（第 $1 届）"
+      }
+    ]
+  },
+  "valueInfoPatterns": {
+    "_comment": "按**值的类型**给说明，跨键复用。详情页优先用这里匹配到的说明，匹配不到才退回键名说明。",
+    "patterns": [
+      {
+        "valuePattern": "^0x060A2B34",
+        "alias": "SMPTE UMID",
+        "type": "SMPTE 素材标识",
+        "description": "32 字节广播级素材唯一标识。"
+      },
+      {
+        "valuePattern": "^[0-9a-fA-F]{32}$",
+        "alias": "哈希值",
+        "type": "哈希值",
+        "description": "32 位十六进制哈希，用于校验或匹配资源。"
+      },
+      {
+        "valuePattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+        "alias": "UUID",
+        "type": "内部 UUID",
+        "description": "平台内部使用的唯一标识，本身不含个人信息。"
+      },
+      {
+        "valuePattern": "^\\{\\[?.*[\\}\\]]$",
+        "alias": "JSON 数据",
+        "type": "平台私有 JSON",
+        "description": "平台写入的结构化私有数据。"
+      },
+      {
+        "valuePattern": "^[A-Za-z0-9+/]{100,200}={0,2}$",
+        "alias": "加密残留",
+        "type": "加密元数据残留",
+        "description": "一长串 Base64，解码后通常是平台内部字段。",
+        "keyPattern": "^(163 key|description)"
+      }
+    ]
+  },
+  "valueAliases": {
+    "_comment": "值的短别名（列表右侧显示用的就是它）。从上到下第一个命中生效。",
+    "aliases": [
+      {
+        "label": "UMID",
+        "valuePattern": "^0x060A2B34"
+      },
+      {
+        "label": "哈希值",
+        "valuePattern": "^[0-9a-fA-F]{32}$"
+      },
+      {
+        "label": "UUID",
+        "valuePattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+      },
+      {
+        "label": "录音代码",
+        "valuePattern": "^(TF|JPTF|VE5HD|JPVI)[A-Za-z0-9-]{4,14}$"
+      },
+      {
+        "label": "编号",
+        "valuePattern": "^\\d{1,12}$"
+      },
+      {
+        "label": "ISRC",
+        "valuePattern": "^[A-Z]{2}[A-Z0-9]{3}\\d{7}$"
+      },
+      {
+        "label": "JSON",
+        "valuePattern": "^[\\{\\[].*[\\}\\]]$"
+      },
+      {
+        "label": "加密残留",
+        "valuePattern": "^[A-Za-z0-9+/]{60,}={0,2}$"
+      },
+      {
+        "label": "站点 URL",
+        "valuePattern": "^(https?://|www\\.)"
+      },
+      {
+        "label": "时间码",
+        "valuePattern": "^\\d{2}:\\d{2}:\\d{2}[:;.]\\d{2,3}$"
+      },
+      {
+        "label": "日期",
+        "valuePattern": "^\\d{4}-\\d{2}-\\d{2}"
+      }
+    ]
+  },
+  "keyInfo": {
+    "_comment": "不属于任何组的通用键名说明。",
+    "txxx": {
+      "alias": "自定义帧",
+      "type": "ID3v2 用户自定义文本帧",
+      "description": "ID3v2 预留的自定义帧，各平台和工具都往里写东西。完整键名要看描述（TXXX:major_brand）。"
+    },
+    "woar": {
+      "alias": "官方网页",
+      "type": "ID3v2 标准帧",
+      "description": "Official artist/performer webpage，规范要求值是官方页面地址。值里是资源站地址时，多半是下载站顺手写进去的。"
+    },
+    "replaygain_track_peak": {
+      "alias": "音轨峰值",
+      "type": "ReplayGain 响度",
+      "description": "超过 1.0 表示转码前已削波，是二次转码的典型特征。"
+    },
+    "replaygain_track_gain": {
+      "alias": "音轨增益",
+      "type": "ReplayGain 响度",
+      "description": "回放时的音量补偿值。"
+    },
+    "tyerdat": {
+      "alias": "日期",
+      "type": "ID3v2.3 日期帧组合",
+      "description": "TYER（年份）与 TDAT（日期）合并后的录音/发行日期。"
+    }
+  },
+  "hints": [
+    {
+      "id": "site-url",
+      "label": "站点 URL",
+      "valuePattern": "(https?://|www\\.|\\.com|\\.cn|\\.net|t\\.me)"
+    },
+    {
+      "id": "woar-url",
+      "label": "网页地址帧",
+      "keyPattern": "^(WOAR|PURL|WXXX)$"
+    },
+    {
+      "id": "base64",
+      "label": "加密残留",
+      "valuePattern": "^[A-Za-z0-9+/]{100,200}={0,2}$"
+    },
+    {
+      "id": "json",
+      "label": "私有 JSON",
+      "valuePattern": "^[\\{\\[].*[\\}\\]]$"
+    },
+    {
+      "id": "uuid",
+      "label": "内部 UUID",
+      "valuePattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+    },
+    {
+      "id": "hash32",
+      "label": "哈希值",
+      "valuePattern": "^[0-9a-fA-F]{32}$"
+    },
+    {
+      "id": "umid",
+      "label": "SMPTE UMID",
+      "valuePattern": "^0x060A2B34"
+    },
+    {
+      "id": "audio-workstation",
+      "label": "专业音频素材字段",
+      "keyPattern": "^(ORIGINATOR_REFERENCE|TIME_REFERENCE|EVENT|UMID)$"
+    },
+    {
+      "id": "cd-rip",
+      "label": "CD 抓轨信息",
+      "keyPattern": "^(DISCID|disctotal|tracktotal)$"
+    }
+  ]
+}

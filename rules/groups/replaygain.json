@@ -1,0 +1,45 @@
+{
+  "groups": [
+    {
+      "id": "replaygain",
+      "name": "回放增益",
+      "kind": "tool",
+      "keyLists": true,
+      "keys": [
+        "replaygain_reference_loudness",
+        "replaygain_track_gain",
+        "replaygain_track_peak",
+        "replaygain_album_gain",
+        "replaygain_album_peak"
+      ],
+      "keyInfo": {
+        "replaygain_reference_loudness": {
+          "alias": "参考响度",
+          "type": "回放增益",
+          "description": "参考响度，通常是 89.0 dB；增益值就是相对它算出来的。"
+        },
+        "replaygain_track_gain": {
+          "alias": "单曲增益",
+          "type": "回放增益",
+          "description": "整首歌需要调整的音量（dB，带正负号），播放器加上它就得到统一响度。"
+        },
+        "replaygain_track_peak": {
+          "alias": "单曲峰值",
+          "type": "回放增益",
+          "description": "整首歌的采样峰值（0~1 的小数），用来避免增益后削波。"
+        },
+        "replaygain_album_gain": {
+          "alias": "专辑增益",
+          "type": "回放增益",
+          "description": "整张专辑的增益，用来保持专辑内各曲的相对音量。"
+        },
+        "replaygain_album_peak": {
+          "alias": "专辑峰值",
+          "type": "回放增益",
+          "description": "整张专辑的峰值。"
+        }
+      },
+      "_comment": "用户要求：REPLAYGAIN_* 单独一组，组里分几个下级列表（按键盘出），不受 10 首阈值限制。"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "groups": [
+    {
+      "id": "beets",
+      "name": "beets",
+      "kind": "platform",
+      "keyPatterns": [
+        "^mb_"
+      ],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^mb_",
+          "alias": "MusicBrainz ID",
+          "type": "beets 音乐库字段",
+          "description": "beets 使用的 MusicBrainz ID 字段。"
+        }
+      ]
+    }
+  ]
+}

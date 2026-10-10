@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "id": "qobuz",
+      "name": "Qobuz",
+      "kind": "platform",
+      "keyPatterns": [
+        "^QOBUZ_"
+      ],
+      "valuePatterns": [
+        "qobuz-dl"
+      ],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^QOBUZ_",
+          "alias": "Qobuz ID",
+          "type": "Qobuz 平台标识",
+          "description": "Qobuz 的专辑/音轨/艺术家/厂牌 ID 或来源地址，保留原始发行信息。"
+        }
+      ]
+    }
+  ]
+}

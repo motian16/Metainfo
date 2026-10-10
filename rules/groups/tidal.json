@@ -1,0 +1,31 @@
+{
+  "groups": [
+    {
+      "id": "tidal",
+      "name": "Tidal",
+      "kind": "platform",
+      "rightKey": "AUDIOQUALITY",
+      "keys": [
+        "audioquality",
+        "mediaMetadata.tags",
+        "track_peak_amplitude",
+        "replay_gain_write"
+      ],
+      "valuePatterns": [
+        "LOSSLESS",
+        "HIRES_LOSSLESS"
+      ],
+      "keyInfo": {
+        "audioquality": {
+          "alias": "Tidal 音质",
+          "type": "Tidal 音质等级",
+          "description": "LOSSLESS 是 FLAC 无损（最高 1411kbps/16bit），HIRES_LOSSLESS 是 HiRes FLAC（最高 192kHz/24bit）。"
+        }
+      },
+      "valueLabels": {
+        "lossless": "无损",
+        "hires_lossless": "高解析无损"
+      }
+    }
+  ]
+}
