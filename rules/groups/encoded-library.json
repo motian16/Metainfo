@@ -1,0 +1,71 @@
+{
+  "groups": [
+    {
+      "id": "encoded-library",
+      "name": "编码函数库",
+      "kind": "tool",
+      "keys": [
+        "encoder",
+        "encodedby",
+        "encoded_by",
+        "©too",
+        "©enc",
+        "tenc",
+        "tsse",
+        "encodersettings",
+        "encodingtime",
+        "vendor",
+        "tool",
+        "writinglibrary",
+        "writing application"
+      ],
+      "keyInfo": {
+        "encoder": {
+          "alias": "编码函数库",
+          "type": "写入工具签名",
+          "description": "写入文件的编码器 / 函数库，MediaInfo 里叫「编码函数库」。Lavf、LAME、libFLAC 这类是标准值，不会列出来；出现别的名字（例如 baimusic）说明有第三方平台往文件里塞了私货。"
+        },
+        "encodedby": {
+          "alias": "编码函数库",
+          "type": "写入工具签名",
+          "description": "同上：值不在标准名单里时才出现在元信息页。"
+        },
+        "©too": {
+          "alias": "编码函数库",
+          "type": "MP4 编码工具原子",
+          "description": "MP4/M4A 里的 ©too 原子，内容与 ENCODER 相同。"
+        },
+        "tenc": {
+          "alias": "编码函数库",
+          "type": "ID3 编码工具帧",
+          "description": "ID3v2 的 TENC 帧，内容与 ENCODER 相同。"
+        },
+        "vendor": {
+          "alias": "编码函数库",
+          "type": "写入工具签名",
+          "description": "写入这个文件的编码器/函数库厂商字符串，例如 `reference libFLAC 1.3.1 20141125`。同一个文件里出现多个不同的 VENDOR，说明它被别的工具重新封装过。"
+        }
+      },
+      "_comment": "用户要求：值后面的版本号是变量（Lavf57.25.100 / Lavf58.76.100）。单个值不足 10 首、但同一家族合计够 10 首时也合并成一项，点进去直接是曲目，不再开三级列表。",
+      "familyPatterns": [
+        "^Lavf",
+        "^Lavc",
+        "^FFmpeg",
+        "^reference libFLAC",
+        "^libFLAC",
+        "^LAME",
+        "^qaac",
+        "^iTunes",
+        "^MediaInfo",
+        "^Exact Audio Copy",
+        "^EAC",
+        "^Nero",
+        "^freedb",
+        "^GStreamer",
+        "^libVorbis",
+        "^libav"
+      ],
+      "familyMergeMin": 10
+    }
+  ]
+}

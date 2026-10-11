@@ -1,0 +1,26 @@
+{
+  "groups": [
+    {
+      "id": "voicememo",
+      "name": "苹果语音备忘录",
+      "kind": "platform",
+      "keys": [
+        "voice-memo-uuid"
+      ],
+      "keyPatterns": [
+        "voice-memo-uuid"
+      ],
+      "valuePatterns": [
+        "com\\.apple\\.VoiceMemos",
+        "cdefver"
+      ],
+      "keyInfo": {
+        "voice-memo-uuid": {
+          "alias": "语音备忘录 ID",
+          "type": "苹果语音备忘录内部 UUID",
+          "description": "苹果『语音备忘录』写入的随机标识，不含个人信息，可用来关联同一段录音的不同副本。"
+        }
+      }
+    }
+  ]
+}

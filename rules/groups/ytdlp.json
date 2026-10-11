@@ -1,0 +1,21 @@
+{
+  "groups": [
+    {
+      "id": "ytdlp",
+      "name": "yt-dlp / youtube-dl",
+      "kind": "tool",
+      "valuePatterns": [
+        "yt-dlp",
+        "youtube-dl"
+      ],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^(webpage_url|webpage_url_domain|original_url|extractor|purl)$",
+          "alias": "来源地址",
+          "type": "下载工具来源字段",
+          "description": "下载工具记录的原始页面地址或提取器名，看域名就能判断真正的来源平台。"
+        }
+      ]
+    }
+  ]
+}

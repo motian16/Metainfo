@@ -1,0 +1,63 @@
+{
+  "groups": [
+    {
+      "id": "mora",
+      "name": "mora",
+      "kind": "platform",
+      "rightKey": "ORGANIZATION",
+      "keys": [
+        "organization",
+        "phonetic_title",
+        "genrenumber",
+        "mood"
+      ],
+      "keyPatterns": [
+        "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+      ],
+      "valuePatterns": [
+        "JASRAC",
+        "TOY'S FACTORY"
+      ],
+      "keyInfo": {
+        "organization": {
+          "alias": "厂牌",
+          "type": "版权组织或厂牌",
+          "description": "JASRAC 是日本音乐著作权协会，后面跟的是唱片公司。"
+        },
+        "phonetic_title": {
+          "alias": "注音标题",
+          "type": "注音标题",
+          "description": "非拉丁语标题的读音写法，日本平台常写。"
+        }
+      },
+      "keyInfoPatterns": [
+        {
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+          "alias": "mora 内部数据",
+          "type": "mora 平台私有标签",
+          "description": "mora（日本索尼音乐旗下的音乐下载站）用 UUID 键名存放平台内部数据，具体含义看值。"
+        }
+      ],
+      "valueInfoPatterns": [
+        {
+          "valuePattern": "^\\d{4,12}$",
+          "alias": "编号",
+          "type": "mora 内部编号",
+          "description": "mora 平台的内部编号，用来在 mora 客户端里定位这张专辑或这首曲目。"
+        },
+        {
+          "valuePattern": "^(TF|JPTF|VE5HD|JPVI)[A-Za-z0-9-]{4,14}$",
+          "alias": "录音代码",
+          "type": "录音代码 / ISRC 类标识",
+          "description": "日本地区的录音代码。前缀 TFCC / JPTF / VE5HD / JPVI 可以反查发行方与录音版本。"
+        },
+        {
+          "valuePattern": "^(JASRAC|TOY'S FACTORY|Victor|Sony)",
+          "type": "版权组织或厂牌",
+          "description": "版权管理组织或唱片公司名称。"
+        }
+      ],
+      "_comment": "mora 的 7 个 UUID 键名由 keyPatterns 命中，共用一份键名说明；每个值的含义再用 valueInfoPatterns 按值匹配 —— 不为每个 UUID 各写一份。"
+    }
+  ]
+}

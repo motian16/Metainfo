@@ -1,0 +1,10 @@
+{
+  "groups": [
+    {
+      "id": "unknown_image",
+      "name": "未知图片",
+      "kind": "image",
+      "_comment": "除了封面和艺术家图之外的图片类标签。判定只看值是不是图片，不看键名，所以这里不写 keyInfoPatterns —— 写一条 `.*` 会把所有未知键都吞掉。"
+    }
+  ]
+}

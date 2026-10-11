@@ -1,0 +1,75 @@
+{
+  "groups": [
+    {
+      "id": "bilibili",
+      "name": "哔哩哔哩",
+      "kind": "platform",
+      "rightKey": "MAJOR_BRAND",
+      "keys": [
+        "compatible_brands",
+        "major_brand",
+        "minor_version",
+        "hasvideo",
+        "haskeyframes",
+        "hasaudio",
+        "hasmetadata",
+        "canseektoend",
+        "datasize",
+        "videosize",
+        "audiosize",
+        "lasttimestamp",
+        "lastkeyframetimestamp",
+        "lastkeyframelocation",
+        "metadatacreator"
+      ],
+      "keyPatterns": [
+        "^(HAS|LAST|CAN)[A-Z_]+$",
+        "^(VIDEO|AUDIO|DATA)SIZE$",
+        "^METADATACREATOR$"
+      ],
+      "valuePatterns": [
+        "Bilibili",
+        "XCoder",
+        "VXCode",
+        "XCode Worker",
+        "^(iso5|isom|mp42|dash)$",
+        "(dsms|msixdash)"
+      ],
+      "keyInfo": {
+        "major_brand": {
+          "alias": "容器主品牌",
+          "type": "MP4 容器主品牌",
+          "description": "ftyp box 的主品牌，标识最适合解析这个文件的规范。"
+        },
+        "minor_version": {
+          "alias": "容器次版本",
+          "type": "MP4 容器次版本号",
+          "description": "主品牌的补充版本信息，通常是很小的整数。"
+        },
+        "compatible_brands": {
+          "alias": "兼容品牌",
+          "type": "MP4 兼容品牌列表",
+          "description": "ftyp box 里列出的兼容规范。含 dash/dsms 说明来自流媒体，文件多半原本是视频。"
+        },
+        "hasvideo": {
+          "alias": "含视频流",
+          "type": "视频容器残留",
+          "description": "true 表示文件里有视频流，也就是视频改名成音频。"
+        },
+        "metadatacreator": {
+          "alias": "元数据创建器",
+          "type": "B 站转码工具签名",
+          "description": "B 站转码工具写入的创建器版本号。"
+        }
+      },
+      "valueLabels": {
+        "iso5": "ISO 基础媒体格式第 5 版",
+        "isom": "ISO 基础媒体格式",
+        "mp42": "MP4 第 2 版",
+        "dash": "DASH 流媒体",
+        "true": "是",
+        "false": "否"
+      }
+    }
+  ]
+}

@@ -19,16 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-关于第三方内容的重要说明（不适用上面的 MIT 许可）：
-
-`plugins/` 目录下的插件包是在
-[Replica0110/Lyrico-Plugins](https://github.com/Replica0110/Lyrico-Plugins)
-的基础上移植、扩展而来，**该上游仓库目前没有声明任何开源许可证**。
-因此这些插件包的再分发权利并不明确，本仓库仅为个人使用与学习目的托管，
-使用者请自行遵守上游作者的要求。如果你要正式分发或商用，请先联系上游作者取得授权。
-
-本仓库自己编写的内容（`index.json`、`rules/tag_rules.json`、`README.md`）
-适用上面的 MIT 许可。

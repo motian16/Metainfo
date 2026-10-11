@@ -1,0 +1,63 @@
+{
+  "groups": [
+    {
+      "id": "site-url",
+      "name": "站点URL",
+      "kind": "tool",
+      "keys": [
+        "website",
+        "url",
+        "woar",
+        "wxxx",
+        "contact",
+        "payment",
+        "url_official_artist",
+        "url_official_release",
+        "url_wikipedia",
+        "url_discogs",
+        "url_allmusic",
+        "url_lyrics",
+        "url_amazon",
+        "url_official"
+      ],
+      "keyInfo": {
+        "website": {
+          "alias": "站点URL",
+          "type": "网页地址",
+          "description": "与这首曲目或艺人相关的网页地址。"
+        },
+        "url": {
+          "alias": "站点URL",
+          "type": "网页地址",
+          "description": "通用网页地址字段。"
+        },
+        "woar": {
+          "alias": "艺人主页",
+          "type": "网页地址",
+          "description": "ID3 的 WOAR：艺人官方主页。"
+        },
+        "wxxx": {
+          "alias": "自定义链接",
+          "type": "网页地址",
+          "description": "ID3 的 WXXX：带说明的自定义链接。"
+        },
+        "url_official_artist": {
+          "alias": "艺人主页",
+          "type": "网页地址",
+          "description": "Picard 写的艺人官网地址。"
+        },
+        "url_official_release": {
+          "alias": "专辑页面",
+          "type": "网页地址",
+          "description": "Picard 写的专辑页面地址。"
+        }
+      },
+      "_comment": "用户要求：站点 URL 单独一个组，判据要\"按值\"—— 键名可能不叫 WOAR/WXXX，只要值是 http(s) 链接或域名就归这一组。",
+      "valuePatterns": [
+        "^https?://",
+        "^www\\.[A-Za-z0-9.-]+\\.[A-Za-z]{2,}",
+        "^[A-Za-z0-9.-]+\\.(com|net|org|jp|cn|io|me|fm|tv|co|xyz|info|de|uk|fr)(/|$)"
+      ]
+    }
+  ]
+}

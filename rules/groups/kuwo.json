@@ -1,0 +1,14 @@
+{
+  "groups": [
+    {
+      "id": "kuwo",
+      "name": "酷我音乐",
+      "kind": "platform",
+      "keyPatterns": [],
+      "valuePatterns": [
+        "^kuwo$",
+        "^酷我音乐$"
+      ]
+    }
+  ]
+}

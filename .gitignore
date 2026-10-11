@@ -1,0 +1,4 @@
+# 打包产物：订阅包与图源包都传到 Release 里，不进仓库
+build/
+__pycache__/
+*.pyc

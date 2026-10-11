@@ -1,0 +1,15 @@
+{
+  "groups": [
+    {
+      "id": "soundcloud",
+      "name": "SoundCloud",
+      "kind": "platform",
+      "keys": [
+        "source_platform"
+      ],
+      "valuePatterns": [
+        "soundcloud\\.com"
+      ]
+    }
+  ]
+}

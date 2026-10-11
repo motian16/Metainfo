@@ -1,0 +1,45 @@
+{
+  "groups": [
+    {
+      "id": "daw",
+      "name": "专业音频工作站 / 影视素材",
+      "kind": "tool",
+      "keys": [
+        "umid",
+        "originator_reference",
+        "time_reference",
+        "event"
+      ],
+      "keyPatterns": [
+        "^(UMID|ORIGINATOR_REFERENCE|TIME_REFERENCE|EVENT)$"
+      ],
+      "valuePatterns": [
+        "Pro Tools",
+        "Logic Pro X",
+        "0x060A2B34"
+      ],
+      "keyInfo": {
+        "umid": {
+          "alias": "素材唯一标识",
+          "type": "SMPTE UMID",
+          "description": "广播级影视素材的唯一标识，以 0x060A2B34 开头。出现在音乐文件里通常说明音频是从影视素材提取的。"
+        },
+        "originator_reference": {
+          "alias": "素材来源引用",
+          "type": "专业音频元数据",
+          "description": "Pro Tools 等工作站导出时写的媒体管理字段，用于追踪素材来自哪个工程。"
+        },
+        "time_reference": {
+          "alias": "时间参考",
+          "type": "专业音频元数据",
+          "description": "素材在原始工程里的时间位置。"
+        },
+        "event": {
+          "alias": "活动标记",
+          "type": "活动 / 事件标记",
+          "description": "同人音乐里常见的活动代号，C + 数字表示某一届 Comic Market。"
+        }
+      }
+    }
+  ]
+}

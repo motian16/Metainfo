@@ -1,0 +1,29 @@
+{
+  "groups": [
+    {
+      "id": "doujin",
+      "name": "同人音乐",
+      "kind": "platform",
+      "rightKey": "EVENT",
+      "keys": [
+        "event"
+      ],
+      "valuePatterns": [
+        "例大祭",
+        "^[Cc]\\d{1,3}$"
+      ],
+      "keyInfo": {
+        "event": {
+          "alias": "展会活动",
+          "type": "同人展会标记",
+          "description": "同人展会与 Comic Market 的场次标记，例如「例大祭 SP」「C75」。"
+        }
+      },
+      "valueLabels": {
+        "例大祭 sp": "例大祭 SP",
+        "例大祭sp": "例大祭 SP"
+      },
+      "_comment": "值为展会标记时归到本组：文件里同时还有平台标签的话，那些标签照旧归各自平台。"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "id": "discogs",
+      "name": "Discogs",
+      "kind": "platform",
+      "keyPatterns": [
+        "^DISCOGS_"
+      ],
+      "valuePatterns": [
+        "discogs\\.com"
+      ],
+      "keyInfoPatterns": [
+        {
+          "pattern": "^DISCOGS_",
+          "alias": "Discogs ID",
+          "type": "Discogs 发行物标识",
+          "description": "Discogs 的发行版本 / Master 条目 ID 或页面地址。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "groups": [
+    {
+      "id": "album-tracks",
+      "name": "专辑曲目",
+      "kind": "tool",
+      "listBy": "album",
+      "mergeListBy": "artist",
+      "keys": [
+        "tracktotal",
+        "totaltracks",
+        "disctotal",
+        "totaldiscs",
+        "trackc",
+        "discc"
+      ],
+      "keyInfo": {
+        "tracktotal": {
+          "alias": "专辑曲目总数",
+          "type": "专辑曲目信息",
+          "description": "这张专辑一共有几首曲目（TRACKTOTAL，等同 TOTALTRACKS）。"
+        },
+        "totaltracks": {
+          "alias": "专辑曲目总数",
+          "type": "专辑曲目信息",
+          "description": "同上：专辑曲目总数。"
+        },
+        "disctotal": {
+          "alias": "专辑碟数",
+          "type": "专辑曲目信息",
+          "description": "这张专辑一共有几张碟（DISCTOTAL，等同 TOTALDISCS）。"
+        },
+        "totaldiscs": {
+          "alias": "专辑碟数",
+          "type": "专辑曲目信息",
+          "description": "同上：专辑碟数。"
+        },
+        "trackc": {
+          "alias": "专辑曲目总数",
+          "type": "专辑曲目信息",
+          "description": "ID3 里的曲目总数（TRACKC / TRCK 的 \"/n\" 部分）。"
+        },
+        "discc": {
+          "alias": "专辑碟数",
+          "type": "专辑曲目信息",
+          "description": "ID3 里的碟数（DISCC / TPOS 的 \"/n\" 部分）。"
+        }
+      },
+      "_comment": "用户要求：这类键属于规则内的标签，必须成组显示；显示方式是按专辑拆列表，同一艺术家的多张专辑合并。"
+    }
+  ]
+}

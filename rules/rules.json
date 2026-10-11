@@ -1,0 +1,145 @@
+{
+  "schema": 2,
+  "_comment": [
+    "规则文件按组拆分：这份是清单，files[] 列出各个分片（相对本文件的路径 + sha256）。",
+    "宿主把分片拉齐后合并成一份完整规则再落盘，合并顺序不影响结果。",
+    "加一个新平台 = 加一个 rules/groups/<英文id>.json 并在这里登记。"
+  ],
+  "rulesVersion": 14,
+  "rulesUpdatedAt": "2026-10-10",
+  "source": "MetaAudio 公共规则",
+  "files": [
+    {
+      "file": "shared/standard.json",
+      "sha256": "f6009b994ea2aa7c92a548ee853573f00fdf8e25d25ef70423be63f895697cfd"
+    },
+    {
+      "file": "shared/labels.json",
+      "sha256": "d0b817f6d7d9e26f8d32339edd1dda0e2235478717b4e33951010020c15e4a03"
+    },
+    {
+      "file": "groups/acoustid.json",
+      "sha256": "4979e88fb136f202d06a91dccfd4ddb07c022a0df483cf41e4fadd01e3dc97d5"
+    },
+    {
+      "file": "groups/album-tracks.json",
+      "sha256": "b0283c1e917237594523a52cf6381bcc66bff3c3ae3bf6c643102fd2b834fd0e"
+    },
+    {
+      "file": "groups/amazon.json",
+      "sha256": "468a609f540517136d759e87978a3b48b73a66ebaae6466c6fa25b711b0d7781"
+    },
+    {
+      "file": "groups/applemusic.json",
+      "sha256": "42a5e8f8a8a48dcbf83e78d7337b5b44c409d872be6cafec89e5edc98e9c9a68"
+    },
+    {
+      "file": "groups/bandcamp.json",
+      "sha256": "ac596c619084e4bccbbe4440384e9c417582271c7606fc206b30f9f8b4b8d403"
+    },
+    {
+      "file": "groups/beatport.json",
+      "sha256": "21c6681bca6043fefe239fac04c3f468dc28493c0e040630a6823b53d7f6c492"
+    },
+    {
+      "file": "groups/beets.json",
+      "sha256": "aaf5d11ecca8bed63c6048733758c2738008992654b5b35d641201781aa03a41"
+    },
+    {
+      "file": "groups/bilibili.json",
+      "sha256": "602d344483be7e1abb0eaa0dc56fed17e44a3e7e57e0f934da2e342980168341"
+    },
+    {
+      "file": "groups/daw.json",
+      "sha256": "3d694f50a6885ca31ff50012b372387e6079cbde87e7e3c09ae73ed22b8079e7"
+    },
+    {
+      "file": "groups/discogs.json",
+      "sha256": "813179bfafc53a7cf5978e14437d2bccf13805d1209bb4a2e327360aef2fefc8"
+    },
+    {
+      "file": "groups/doujin.json",
+      "sha256": "cdf6a58dcfd86ed7281c7ddab15a6ced22b247b8037eed6ebef96dcb20bcfc5b"
+    },
+    {
+      "file": "groups/eac.json",
+      "sha256": "72c13a0da53068ef9e08fdfde25b4af459344e7ebc191fbc45c47c3cdc4d71e0"
+    },
+    {
+      "file": "groups/encoded-library.json",
+      "sha256": "ebb94b5d806df3577124ea7f1142fd635c725e0ca6aca0b4c97ac72abac931fe"
+    },
+    {
+      "file": "groups/ffmpeg.json",
+      "sha256": "83603f6ff0c25bc94fa983b2ed1f82dddbb6a2c522bff838826f56710c2d66a3"
+    },
+    {
+      "file": "groups/kugou.json",
+      "sha256": "2fe7279c1ca61f9a01eb182414872291b7ae290bd44037710467df710c88f57b"
+    },
+    {
+      "file": "groups/kuwo.json",
+      "sha256": "e3d2526d402c0c411916b442f7c1e17e1c8059450ffa494300f4c4b3cfc48af1"
+    },
+    {
+      "file": "groups/mora.json",
+      "sha256": "aa7a9cf99fbc09257271ac491b5068bedd57d6da7deaba0fc0cf5be5aeb42984"
+    },
+    {
+      "file": "groups/musicbrainz.json",
+      "sha256": "8f03688d49e784c34ef69b9afc59623ef2e86c7ab60a44302eb8954bf8c7b6ae"
+    },
+    {
+      "file": "groups/musicip.json",
+      "sha256": "a23b3c489b5c87060930da1a07154e9b4bcbca2c18ccc14725257301e2da68e9"
+    },
+    {
+      "file": "groups/netease.json",
+      "sha256": "24110436728c01cea0e06e9f46934536b98a5be34ab72f635810706d1784c3ed"
+    },
+    {
+      "file": "groups/qobuz.json",
+      "sha256": "fdaec6d0ad9fdfc64d4a632274f95163be65b9174aa2972e33d2769e1c1e944d"
+    },
+    {
+      "file": "groups/qqmusic.json",
+      "sha256": "20960bc1477b42a21c822a4130ea45e57a9ecd0f670e0128365812fb447bc8c5"
+    },
+    {
+      "file": "groups/replaygain.json",
+      "sha256": "e9b1b07d1890e233ffec33099ffbca0dad976499118c2e2941aa37a7fd9e87fe"
+    },
+    {
+      "file": "groups/site-url.json",
+      "sha256": "0e0482f95e24f216d1d885740ff023f4fd3ae9477de902d131223ef27dd84fde"
+    },
+    {
+      "file": "groups/soundcloud.json",
+      "sha256": "17c1089d144430fb6ba446cd2985533782b3918242dbecda36f4e78d42d591df"
+    },
+    {
+      "file": "groups/spotify.json",
+      "sha256": "4b44e912920ab47f6c2cda49e976a416eb3313b299ab0f8f61d0e812512d0d43"
+    },
+    {
+      "file": "groups/tidal.json",
+      "sha256": "4809fd6c8ea423940bdc37ac58ff0026130b46802f7c2901e2bff8908358d637"
+    },
+    {
+      "file": "groups/unknown-image.json",
+      "sha256": "97780b513fab173266b755af45242425c0b5e965fbe10574d415e8978a2cdff2"
+    },
+    {
+      "file": "groups/voicememo.json",
+      "sha256": "797ef3797605557fcdc957640b6690be9640f9916a8f1092ad78a90612053259"
+    },
+    {
+      "file": "groups/youtube.json",
+      "sha256": "26a9893038f244c1fe0bb3f59b27613ee738356ab2b0a63955dae9f39576b8bc"
+    },
+    {
+      "file": "groups/ytdlp.json",
+      "sha256": "deb2bb559d7d63508d39ab63f3644d22144de68ece0323d32d13c978bceb58ee"
+    }
+  ]
+}

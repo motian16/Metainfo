@@ -1,0 +1,25 @@
+{
+  "groups": [
+    {
+      "id": "ffmpeg",
+      "name": "FFmpeg",
+      "kind": "tool",
+      "valuePatterns": [
+        "Lavf\\d{2}\\.",
+        "Lavc\\d{2}\\."
+      ],
+      "keyInfo": {
+        "encoder": {
+          "alias": "编码器",
+          "type": "转码工具签名",
+          "description": "写入文件的封装库。Lavf58 这类版本号对应 FFmpeg 的某个大版本，可推断转码时间。"
+        },
+        "tsse": {
+          "alias": "编码软件",
+          "type": "转码工具签名",
+          "description": "ID3v2 的『软件/设置』帧，FFmpeg 把 Lavf 版本写在这里。"
+        }
+      }
+    }
+  ]
+}

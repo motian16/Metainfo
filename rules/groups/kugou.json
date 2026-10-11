@@ -1,0 +1,48 @@
+{
+  "groups": [
+    {
+      "id": "kugou",
+      "name": "酷狗音乐",
+      "kind": "platform",
+      "rightKey": "QUALITY",
+      "keys": [
+        "kghash",
+        "extend",
+        "quality",
+        "txxx:track",
+        "txxx:year"
+      ],
+      "keyPatterns": [
+        "^KGHASH$",
+        "^EXTEND$",
+        "^QUALITY$"
+      ],
+      "valuePatterns": [
+        "^viper_",
+        "ALBUMID",
+        "AUTHORID",
+        "MIXSONGID"
+      ],
+      "keyInfo": {
+        "kghash": {
+          "alias": "酷狗哈希",
+          "type": "酷狗私有哈希",
+          "description": "酷狗给每个音频资源分配的 32 位哈希，对应它 API 的 FileHash，可反查直链、比特率、时长。"
+        },
+        "extend": {
+          "alias": "酷狗私有数据",
+          "type": "酷狗私有 JSON",
+          "description": "含 ALBUMID（专辑）、AUTHORID（作者）、MIXSONGID（混音）三个内部 ID。"
+        },
+        "quality": {
+          "alias": "酷狗音质",
+          "type": "酷狗私有音质标识",
+          "description": "下载时使用的酷狗音效档位。"
+        }
+      },
+      "valueLabels": {
+        "viper_clear": "蝰蛇超清"
+      }
+    }
+  ]
+}

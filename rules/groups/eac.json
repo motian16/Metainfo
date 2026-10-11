@@ -1,0 +1,12 @@
+{
+  "groups": [
+    {
+      "id": "eac",
+      "name": "ExactAudioCopy",
+      "kind": "tool",
+      "valuePatterns": [
+        "ExactAudioCopy"
+      ]
+    }
+  ]
+}
