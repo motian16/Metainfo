@@ -43,7 +43,7 @@
           "description": "MusicBrainz 的 COPYRIGHTINFO：录音/作品的版权与授权信息。"
         }
       ],
-      "_comment": " 用户要求：SUBGENRE / STYLE / COPYRIGHTS / COPYRIGHTINFO 这类 FLAC 扩展元数据也归本组。 用户要求：SUBGENRE / STYLE / COPYRIGHTS / COPYRIGHTINFO 这类 FLAC 扩展元数据也归本组。"
+      "_comment": " 用户要求：SUBGENRE / STYLE / COPYRIGHTS / COPYRIGHTINFO 这类 FLAC 扩展元数据也归本组。 用户要求：SUBGENRE / STYLE / COPYRIGHTS / COPYRIGHTINFO 这类 FLAC 扩展元数据也归本组。 用户要求：SUBGENRE / STYLE / COPYRIGHTS / COPYRIGHTINFO 这类 FLAC 扩展元数据也归本组。"
     }
   ]
 }

@@ -52,7 +52,12 @@
           "description": "Picard 写的专辑页面地址。"
         }
       },
-      "_comment": "用户要求：站点 URL 单独一个组。"
+      "_comment": "用户要求：站点 URL 单独一个组，判据要\"按值\"—— 键名可能不叫 WOAR/WXXX，只要值是 http(s) 链接或域名就归这一组。",
+      "valuePatterns": [
+        "^https?://",
+        "^www\\.[A-Za-z0-9.-]+\\.[A-Za-z]{2,}",
+        "^[A-Za-z0-9.-]+\\.(com|net|org|jp|cn|io|me|fm|tv|co|xyz|info|de|uk|fr)(/|$)"
+      ]
     }
   ]
 }
