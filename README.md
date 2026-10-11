@@ -54,7 +54,10 @@ artistimage-src/        艺术家图源源码（直接可读、可改）
     netease/  apple/  kugou/
 plugins-src/            上游元信息源的源码副本（给人看的，仓库不发布它们）
 tools/
-    build_bundle.py     打包脚本：合并规则 → 打订阅包 → 更新 index.json
+    build_bundle.py       打包脚本：合并规则 → 打订阅包 → 更新 index.json
+    publish_release.ps1   发布脚本：把 build/ 里的包传到 Release（要 GH_TOKEN）
+    verify_subscription.py 发布后自检：直连、镜像、整包、包内每个文件逐个对 sha256
+    probe_mirrors.py      量 GitHub 中转站：raw 与 Release 资产各走得通吗（镜像表要定期换）
 ```
 
 **插件包（zip）不放在仓库里**：它们由 `tools/build_bundle.py` 生成到 `build/`，
@@ -114,8 +117,10 @@ tools/
 ## 发布新版本的流程
 
 ```powershell
-python tools\build_bundle.py          # 合并规则 + 打订阅包 + 更新 index.json
-python tools\build_bundle.py --check  # 校验 index.json 里的 sha256 对不对
+python tools\build_bundle.py            # 合并规则 + 打订阅包 + 更新 index.json
+python tools\build_bundle.py --check    # 校验 index.json 里的 sha256 对不对
+$env:GH_TOKEN="<token>"; .\tools\publish_release.ps1 -Tag v2   # 传订阅包与 4 个图源包
+python tools\verify_subscription.py     # 发布后自检（直连 / 镜像 / 包内文件）
 ```
 
 脚本会自动做完这几件事：
@@ -128,10 +133,12 @@ python tools\build_bundle.py --check  # 校验 index.json 里的 sha256 对不�
 
 然后：
 
-6. 新建 Release（例如 `v2`），把 `build/MetaAudio-Subscription.zip` 与
-   `build/release/` 下的 4 个图源包传上去 —— **包名不要改**，`index.json` 与
-   App 都按名字取件；
+6. `tools/publish_release.ps1` 会新建 Release（例如 `v2`）并把
+   `build/MetaAudio-Subscription.zip` 与 `build/release/` 下的 4 个图源包传上去 ——
+   **包名不要改**，`index.json` 与 App 都按名字取件；
 7. 提交并推送 `index.json`（改过源码的话连 `artistimage-src/`、`rules/` 一起提交）。
+   **先发 Release 再推 index.json**：反过来的话，中间那几分钟里订阅的人会拿到
+   一个指向还不存在的包的地址。
 
 打包是**可重复**的：内容一样 → 字节一样 → sha256 一样，所以同一个版本重打一次
 不会让 `index.json` 白改一遍。
