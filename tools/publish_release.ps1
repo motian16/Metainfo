@@ -19,7 +19,8 @@ $assets += Get-ChildItem "$root\build\release\*.zip" | ForEach-Object { $_.FullN
 $body = @{
     tag_name         = $Tag
     target_commitish = "main"
-    name             = "$Tag 一条订阅一个包"
+    # 标题保持 ASCII（用户要求）：Release 页面上不要出现中文标题。
+    name             = "$Tag - MetaAudio subscription bundle"
     body             = @"
 MetaAudio 订阅源的发行版资产。
 
