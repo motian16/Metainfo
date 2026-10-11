@@ -26,9 +26,11 @@ MetaAudio-Subscription.zip
     plugins/com.metaaudio.artistimage.apple.zip
     plugins/com.metaaudio.artistimage.kugou.zip
     rules/tag_rules.json                          标签识别规则（合并好的完整一份）
+    icons/bilibili.png                            平台图标（元信息页每个分组左边那张图）
+    icons/qq.png  icons/netease.png  icons/ffmpeg.png  …（共 10 张）
 ```
 
-4. 按 `sha256` 校验整包 → 解压 → 逐个装插件 + 落规则。**整次更新只有两次请求**。
+4. 按 `sha256` 校验整包 → 解压 → 逐个装插件 + 落规则 + 装平台图标。**整次更新只有两次请求**。
 
 下载顺序是 **github.com 原地址优先**，直连不通才自动换镜像（内置 jsDelivr 与
 `gh-proxy.com` / `ghproxy.cn` / `ghfast.top` 三个中转，谁通用谁）。镜像拿到的内容
@@ -49,16 +51,27 @@ rules/
     rules.json          规则清单：版本 + 分片列表（每个分片带 sha256）
     shared/             标准键 / 标准值 / 值别名（standard.json、labels.json）
     groups/             一个平台一个文件（qqmusic.json、netease.json…）
+icon/                   平台图标（元信息页每个分组左边那张图）
+    bilibili.png        文件名就是对应分组：bilibili.png ↔ 哔哩哔哩
+    qq.png  netease.png  kugou.png  apple.png  apple-notes.png
+    musicbrainz.png  mora.png  touhou.png  ffmpeg.png
 artistimage-src/        艺术家图源源码（直接可读、可改）
     qq/                 manifest.json / source.js / icon.png / locales/
     netease/  apple/  kugou/
 plugins-src/            上游元信息源的源码副本（给人看的，仓库不发布它们）
 tools/
-    build_bundle.py       打包脚本：合并规则 → 打订阅包 → 更新 index.json
+    build_bundle.py       打包脚本：合并规则 + 收图标 → 打订阅包 → 更新 index.json
+    release-notes.md      Release 说明（ASCII）
     publish_release.ps1   发布脚本：把 build/ 里的包传到 Release（要 GH_TOKEN）
     verify_subscription.py 发布后自检：直连、镜像、整包、包内每个文件逐个对 sha256
     probe_mirrors.py      量 GitHub 中转站：raw 与 Release 资产各走得通吗（镜像表要定期换）
 ```
+
+**平台图标为什么走订阅而不是打进 App**：它们是第三方平台的图（QQ、哔哩哔哩、
+FFmpeg…），不属于 App 自身内容，所以 App 里一张都不带，全部跟着订阅更新 ——
+装进 App 私有目录 `platform_icons/`，界面按**文件名**对分组名取用
+（`bilibili.png` ↔ 「哔哩哔哩」，`touhou.png` ↔ 「同人音乐」，`ffmpeg.png` ↔ 「编码函数库」）。
+仓库里没有对应图的那些分组（Spotify、YouTube、Qobuz…）继续用占位图。
 
 **插件包（zip）不放在仓库里**：它们由 `tools/build_bundle.py` 生成到 `build/`，
 再上传到 [Releases](https://github.com/motian16/Metainfo/releases)。仓库里只留源码，
@@ -103,6 +116,8 @@ tools/
 | `bundle.url` | **订阅包地址**：元信息源 + 艺术家图源 + 标签规则都在里面 |
 | `bundle.sha256` | 整包的校验值。对不上就换镜像重试，全部对不上就不装 |
 | `bundle.rules` / `bundle.rulesSha256` | 包内那份规则的路径与校验值。App 直接落盘，不再逐个拉分片 |
+| `icons.sha256` | 整批平台图标的校验值；App 存下来判断"本地这批图要不要更新" |
+| `icons.files[]` | 每张图标的地址与 sha256。平时都在订阅包里，这一份是包取不到时的兜底 |
 | `rules` | 没有订阅包时的规则来源（分片清单），相对 `index.json` 所在目录 |
 | `plugins[].url` | 没有订阅包时的逐个下载地址。App 比 `versionName`，只有更新才下载 |
 | `plugins[].src` | 源码目录（给人看的，软件不用） |
@@ -126,17 +141,18 @@ python tools\verify_subscription.py     # 发布后自检（直连 / 镜像 / �
 脚本会自动做完这几件事：
 
 1. 校验 `rules/rules.json` 里每个分片的 sha256，并把分片**合并**成一份完整规则；
-2. 把 `artistimage-src/<平台>/` 重新打成 zip（`build/release/*.zip`）；
-3. 从上游 Lyrico-Plugins 取元信息源包（缓存在 `build/upstream/`，`--refresh` 可强制重下）；
-4. 打出 `build/MetaAudio-Subscription.zip`（`plugins/` + `rules/`）；
-5. 更新 `index.json`：`updatedAt`、各包 `sha256`、订阅包地址与大小。
+2. 收 `icon/` 下的平台图标，算出整批的校验值（`icons.sha256`）；
+3. 把 `artistimage-src/<平台>/` 重新打成 zip（`build/release/*.zip`）；
+4. 从上游 Lyrico-Plugins 取元信息源包（缓存在 `build/upstream/`，`--refresh` 可强制重下）；
+5. 打出 `build/MetaAudio-Subscription.zip`（`plugins/` + `rules/` + `icons/`）；
+6. 更新 `index.json`：`updatedAt`、各包 `sha256`、订阅包地址与大小、图标逐个与整批的 sha256。
 
 然后：
 
-6. `tools/publish_release.ps1` 会新建 Release（例如 `v2`）并把
+7. `tools/publish_release.ps1` 会新建 Release（例如 `v3`）并把
    `build/MetaAudio-Subscription.zip` 与 `build/release/` 下的 4 个图源包传上去 ——
    **包名不要改**，`index.json` 与 App 都按名字取件；
-7. 提交并推送 `index.json`（改过源码的话连 `artistimage-src/`、`rules/` 一起提交）。
+8. 提交并推送 `index.json`（改过源码的话连 `artistimage-src/`、`icon/`、`rules/` 一起提交）。
    **先发 Release 再推 index.json**：反过来的话，中间那几分钟里订阅的人会拿到
    一个指向还不存在的包的地址。
 
@@ -151,7 +167,7 @@ python tools\verify_subscription.py     # 发布后自检（直连 / 镜像 / �
 ## 在软件里怎么用
 
 1. **设置 → 插件 → 插件仓库** → 点那一行 → 填入上面的 `index.json` 地址
-2. 点右边的刷新按钮 → 下载订阅包，比本地新的插件一次装齐、规则一并更新
+2. 点右边的刷新按钮 → 下载订阅包，比本地新的插件一次装齐、规则与平台图标一并更新
 3. **设置 → 插件 → 艺术家图源** → 确认四个插件都已启用
 4. **设置 → 刮削 → 艺术家图片优先级** → 给它们排序（排在前面的一旦找到图就不再问后面的）
 
