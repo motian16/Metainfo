@@ -19,24 +19,11 @@ $assets += Get-ChildItem "$root\build\release\*.zip" | ForEach-Object { $_.FullN
 $body = @{
     tag_name         = $Tag
     target_commitish = "main"
-    # 标题保持 ASCII（用户要求）：Release 页面上不要出现中文标题。
+    # 标题与说明都保持 ASCII（用户要求）：Release 页面上不出现中文。
+    # 说明正文放 tools/release-notes.md，改文案不用动脚本。
     name             = "$Tag - MetaAudio subscription bundle"
-    body             = @"
-MetaAudio 订阅源的发行版资产。
-
-**MetaAudio-Subscription.zip** —— App 点「更新订阅」时下载的**唯一**一个包，内含：
-
-- 元信息源（上游 Lyrico-Plugins 的发布包）：QQ音乐 0.4.2 / 网易云音乐 0.4.1 / Apple Music 0.4.1 / 酷狗音乐 0.4.1 / MusicBrainz 1.2.1
-- 艺术家图源（本仓库 artistimage-src/）：com.metaaudio.artistimage.qq / netease / apple / kugou
-- 标签识别规则（合并好的完整一份，rulesVersion $rulesVersion）
-
-包内结构：``plugins/<包名>.zip`` + ``rules/tag_rules.json``。
-订阅的 index.json 里公布了这个包的 sha256（整包校验）与包内规则的 sha256。
-
-其余 4 个 zip 是各个艺术家图源的**单独包**：订阅包取不到时 App 会退回逐个下载它们。
-
-订阅地址：``https://raw.githubusercontent.com/motian16/Metainfo/main/index.json``
-"@
+    body             = (Get-Content "$PSScriptRoot\release-notes.md" -Raw -Encoding UTF8).
+                           Replace("{rulesVersion}", "$rulesVersion")
     draft            = $false
     prerelease       = $false
 }
