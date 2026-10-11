@@ -1,8 +1,12 @@
 {
     "schema":  1,
     "name":  "渊の插件源",
-    "updatedAt":  "2026-10-10",
-    "note":  "订阅这一条地址即可：更新时会一并装上「元信息源」与「艺术家图源」，并自动更新标签识别规则。元信息源（kind=meta）直接指向 Lyrico-Plugins 的发布包，本仓库不存放它们的源码；艺术家图源（kind=artistimage）的插件包放在本仓库的 Release 里，源码在 plugins/ 下；标签识别规则在 rules/ 下，rules.sha256 用于校验。",
+    "updatedAt":  "2026-10-11",
+    "note":  "订阅这一条地址即可：更新时先下这一个 bundle.zip（内含全部插件包与标签规则），本地解压后按各条目的 sha256 逐个校验安装，请求数从十几次降到 1 次；bundle 拿不到时自动退回逐个下载。元信息源（kind=meta）直接指向 Lyrico-Plugins 的发布包，本仓库不存放它们的源码；艺术家图源（kind=artistimage）的插件包放在本仓库的 Release 里，源码在 plugins/ 下。",
+    "bundle":  {
+                   "file":  "bundle.zip",
+                   "sha256":  "4ea2af4d9b0ee3aa7c2fa33dd76cd27df383c3bf324026ca8fdbdbdd532e2c03"
+               },
     "rules":  {
                   "file":  "rules/rules.json",
                   "sha256":  "0b4211a66b7155480425cd32a480251d6965eb81150759450c5c7c459320ca2a"
