@@ -1,17 +1,21 @@
-# 发布 Release：把 build/ 里的订阅包与 4 个图源包传上去。
-# 用法：$env:GH_TOKEN='<token>'; .\tools\publish_release.ps1 -Tag v2
-# 前置：先跑 python tools/build_bundle.py（它会更新 index.json 里的 sha256）。
+# Publish a release: uploads build/MetaAudio-Subscription.zip plus the four
+# artist-image plugin zips from build/release/.
+#
+# Usage:  $env:GH_TOKEN='<token>'; .\tools\publish_release.ps1 -Tag v4
+# Before: python tools/build_bundle.py   (it refreshes the sha256 in index.json)
+#
+# This file is deliberately ASCII-only: a .ps1 with non-ASCII comments is read
+# with the wrong encoding by Windows PowerShell and fails to parse.
 param(
-    [string]$Tag = "v2",
+    [string]$Tag = "v3",
     [string]$Repo = "motian16/Metainfo"
 )
 $ErrorActionPreference = "Stop"
 $token = $env:GH_TOKEN
-if (-not $token) { throw "缺少 GH_TOKEN" }
+if (-not $token) { throw "GH_TOKEN is not set" }
 $headers = @{ Authorization = "token $token"; "User-Agent" = "MetaAudio-Repo-Builder" }
 $root = Split-Path -Parent $PSScriptRoot
 
-$index = Get-Content "$root\index.json" -Raw -Encoding UTF8 | ConvertFrom-Json
 $rulesVersion = (Get-Content "$root\rules\rules.json" -Raw -Encoding UTF8 | ConvertFrom-Json).rulesVersion
 $assets = @("$root\build\MetaAudio-Subscription.zip")
 $assets += Get-ChildItem "$root\build\release\*.zip" | ForEach-Object { $_.FullName }
@@ -19,8 +23,8 @@ $assets += Get-ChildItem "$root\build\release\*.zip" | ForEach-Object { $_.FullN
 $body = @{
     tag_name         = $Tag
     target_commitish = "main"
-    # 标题与说明都保持 ASCII（用户要求）：Release 页面上不出现中文。
-    # 说明正文放 tools/release-notes.md，改文案不用动脚本。
+    # Title and notes stay ASCII (requested): no Chinese on the release page.
+    # The notes live in tools/release-notes.md so wording changes need no code edit.
     name             = "$Tag - MetaAudio subscription bundle"
     body             = (Get-Content "$PSScriptRoot\release-notes.md" -Raw -Encoding UTF8).
                            Replace("{rulesVersion}", "$rulesVersion")
@@ -40,5 +44,5 @@ foreach ($file in $assets) {
     $uploaded = Invoke-RestMethod -Headers $headers -Method Post `
         -Uri ("https://uploads.github.com/repos/$Repo/releases/" + $release.id + "/assets?name=" + [uri]::EscapeDataString($name)) `
         -ContentType "application/zip" -InFile $file
-    Write-Output ("  " + $uploaded.name + "  " + $uploaded.size + " 字节（本地 " + $size + "）  " + $uploaded.browser_download_url)
+    Write-Output ("  " + $uploaded.name + "  " + $uploaded.size + " bytes (local " + $size + ")  " + $uploaded.browser_download_url)
 }

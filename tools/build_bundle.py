@@ -22,6 +22,7 @@
     plugins/com.metaaudio.artistimage.kugou.zip
     plugins/com.metaaudio.artistimage.apple.zip
     rules/tag_rules.json
+    icons/bilibili.png …（元信息页每个分组左边那张平台图）
 
 用法：
 
@@ -50,11 +51,14 @@ UPSTREAM = os.path.join(BUILD, "upstream")
 RELEASE = os.path.join(BUILD, "release")
 RULES_DIR = os.path.join(ROOT, "rules")
 ARTIST_SRC = os.path.join(ROOT, "artistimage-src")
+#: 平台图标（「元信息」页每个分组左边那张图）：订阅包里发 `icons/<名字>.png`，
+#: App 落到私有目录 platform_icons/，按文件名对分组名。
+ICON_SRC = os.path.join(ROOT, "icon")
 
 #: 仓库地址（Release 与 raw 都在这个仓库里）。
 REPO = "motian16/Metainfo"
 #: 订阅包与艺术家图源包所在的 Release 标签。
-DEFAULT_TAG = "v2"
+DEFAULT_TAG = "v3"
 #: 订阅包在 Release 里的文件名。
 BUNDLE_NAME = "MetaAudio-Subscription.zip"
 
@@ -101,6 +105,18 @@ def sha256_file(path: str) -> str:
 def read_text(path: str) -> str:
     with open(path, "r", encoding="utf-8-sig") as handle:
         return handle.read()
+
+
+def aggregate_icons_sha(icon_files: dict) -> str:
+    """整批平台图标的校验值：`名字 sha256` 每行一条、按名字排序，再取一次 sha256。
+
+    App 只**存**这个值、不自己算（它拿到的是同一份公布值），用来判断
+    "本地装的是不是已经是这一批"，所以算法只要在仓库这边稳定就行。
+    """
+    lines = "".join(
+        "%s %s\n" % (name, sha256_bytes(data)) for name, data in sorted(icon_files.items())
+    )
+    return sha256_bytes(lines.encode("utf-8"))
 
 
 def write_text(path: str, text: str) -> None:
@@ -198,14 +214,26 @@ def fetch(url: str, path: str, refresh: bool) -> bytes:
 def build(tag: str, refresh: bool, updated_at: str) -> dict:
     os.makedirs(UPSTREAM, exist_ok=True)
 
-    print("1/4 合并标签规则")
+    print("1/5 合并标签规则")
     merged_text, merged_sha, manifest_sha = merge_rules()
     merged_path = os.path.join(BUILD, "tag_rules.json")
     write_text(merged_path, merged_text)
     print("    rulesVersion=%s，%d 字节，sha256=%s"
           % (json.loads(merged_text).get("rulesVersion"), len(merged_text.encode("utf-8")), merged_sha[:16]))
 
-    print("2/4 打包艺术家图源（源码在 artistimage-src/）")
+    print("2/5 收平台图标（icon/，订阅包里发 icons/）")
+    icon_files = {}
+    for name in sorted(os.listdir(ICON_SRC)):
+        if not name.lower().endswith(".png"):
+            continue
+        with open(os.path.join(ICON_SRC, name), "rb") as handle:
+            icon_files[name] = handle.read()
+    if not icon_files:
+        raise SystemExit("icon/ 里一张 png 都没有")
+    icons_sha = aggregate_icons_sha(icon_files)
+    print("    %d 张，整批 sha256=%s" % (len(icon_files), icons_sha[:16]))
+
+    print("3/5 打包艺术家图源（源码在 artistimage-src/）")
     os.makedirs(RELEASE, exist_ok=True)
     artist_files = {}
     for plugin_id, _, folder, _, _ in ARTIST:
@@ -216,14 +244,14 @@ def build(tag: str, refresh: bool, updated_at: str) -> dict:
             handle.write(data)
         print("    %-40s %6d 字节  %s" % (plugin_id + ".zip", len(data), sha256_bytes(data)[:16]))
 
-    print("3/4 取元信息源（上游 Lyrico-Plugins " + META_TAG + "）")
+    print("4/5 取元信息源（上游 Lyrico-Plugins " + META_TAG + "）")
     meta_files = {}
     for _, _, _, _, name in META:
         data = fetch(META_BASE + "/" + name, os.path.join(UPSTREAM, name), refresh)
         meta_files[name] = data
         print("    %-45s %7d 字节  %s" % (name, len(data), sha256_bytes(data)[:16]))
 
-    print("4/4 打订阅包 " + BUNDLE_NAME)
+    print("5/5 打订阅包 " + BUNDLE_NAME)
     bundle = io.BytesIO()
     with zipfile.ZipFile(bundle, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         def add(path: str, data: bytes, store: bool = False) -> None:
@@ -232,12 +260,14 @@ def build(tag: str, refresh: bool, updated_at: str) -> dict:
             info.external_attr = 0o644 << 16
             archive.writestr(info, data)
 
-        # 元信息源与图源本身已经是压缩过的 zip，再压一遍只是浪费时间。
+        # 元信息源、图源、图标本身都已经压过了，再压一遍只是浪费时间。
         for name, data in meta_files.items():
             add("plugins/" + name, data, store=True)
         for entry in ARTIST:
             plugin_id, _, folder, _, _ = entry
             add("plugins/" + plugin_id + ".zip", artist_files[folder], store=True)
+        for name, data in icon_files.items():
+            add("icons/" + name, data, store=True)
         add("rules/tag_rules.json", merged_text.encode("utf-8"))
 
     bundle_bytes = bundle.getvalue()
@@ -281,10 +311,11 @@ def build(tag: str, refresh: bool, updated_at: str) -> dict:
         "updatedAt": updated_at,
         "note": (
             "订阅这一条地址即可：更新时只下载 bundle 那一个 zip —— 里面已经装好了"
-            "元信息源、艺术家图源和标签识别规则，App 一次请求全部装齐。"
-            "bundle 取不到时才回退到逐个下载 plugins[] 里的包（老客户端也能用）。"
-            "元信息源的源码在上游 Lyrico-Plugins，不在本仓库；"
-            "艺术家图源源码在 artistimage-src/ 下；标签规则在 rules/ 下并按组拆分。"
+            "元信息源、艺术家图源、平台图标和标签识别规则，App 一次请求全部装齐。"
+            "bundle 取不到时才回退到逐个下载 plugins[] 里的包与 icons.files[] 里的图标"
+            "（老客户端也能用）。元信息源的源码在上游 Lyrico-Plugins，不在本仓库；"
+            "艺术家图源源码在 artistimage-src/ 下；标签规则在 rules/ 下并按组拆分；"
+            "平台图标在 icon/ 下，按文件名对元信息页的分组名（bilibili.png → 哔哩哔哩）。"
         ),
         "rules": {
             "file": "rules/rules.json",
@@ -298,11 +329,20 @@ def build(tag: str, refresh: bool, updated_at: str) -> dict:
             "rules": "rules/tag_rules.json",
             "rulesSha256": merged_sha,
         },
+        "icons": {
+            # 整批的校验值：App 存下来，判断"本地这批图是不是已经是最新的"。
+            "sha256": icons_sha,
+            # 订阅包里带的是同一批（`icons/<名字>.png`）；这一份是包取不到时的兜底路线。
+            "files": [
+                {"file": "icon/" + name, "sha256": sha256_bytes(data)}
+                for name, data in sorted(icon_files.items())
+            ],
+        },
         "plugins": plugins,
     }
     index_text = json.dumps(index, ensure_ascii=False, indent=2) + "\n"
     write_text(os.path.join(ROOT, "index.json"), index_text)
-    print("index.json 已更新（%d 个插件条目）" % len(plugins))
+    print("index.json 已更新（%d 个插件条目、%d 张平台图标）" % (len(plugins), len(icon_files)))
     return index
 
 
@@ -339,6 +379,28 @@ def check() -> int:
         ok = actual == (item.get("sha256") or "").lower()
         print(("  OK   " if ok else "  不一致 ") + item["id"] + " " + actual)
         bad += 0 if ok else 1
+
+    # 平台图标：icon/ 下每个文件的 sha256、以及整批的那个校验值。
+    icons = index.get("icons") or {}
+    icon_files = {}
+    for item in icons.get("files", []):
+        local = os.path.join(ROOT, item["file"].replace("/", os.sep))
+        if not os.path.isfile(local):
+            print("  不一致 " + item["file"] + "（仓库里没有这个文件）")
+            bad += 1
+            continue
+        with open(local, "rb") as handle:
+            data = handle.read()
+        name = os.path.basename(item["file"])
+        icon_files[name] = data
+        ok = sha256_bytes(data) == (item.get("sha256") or "").lower()
+        print(("  OK   " if ok else "  不一致 ") + "icon " + name)
+        bad += 0 if ok else 1
+    if icon_files:
+        ok = aggregate_icons_sha(icon_files) == (icons.get("sha256") or "").lower()
+        print(("  OK   " if ok else "  不一致 ") + "icon 整批 sha256 " + aggregate_icons_sha(icon_files))
+        bad += 0 if ok else 1
+
     if bad:
         print("有 %d 处对不上" % bad)
     return 1 if bad else 0

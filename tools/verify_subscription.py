@@ -115,6 +115,31 @@ for item in index["plugins"]:
     except Exception as error:
         check(False, item["id"] + " 单独下载失败", str(error)[:80])
 
+print("6) 平台图标（元信息页每个分组左边那张图）")
+icons = index.get("icons") or {}
+icon_files = icons.get("files") or []
+check(len(icon_files) >= 1, "index.json 公布了平台图标", str(len(icon_files)) + " 张")
+aggregate = []
+for item in icon_files:
+    name = item["file"].rsplit("/", 1)[-1]
+    if "icons/" + name not in names:
+        check(False, "图标 " + name + " 在订阅包里")
+        continue
+    inner = archive.read("icons/" + name)
+    ok_bundle = sha(inner) == item.get("sha256", "").lower()
+    check(ok_bundle, "图标 " + name + " 包内 sha256 与条目一致")
+    aggregate.append("%s %s\n" % (name, sha(inner)))
+    # 订阅包取不到时的兜底路线：直接从仓库 raw 下这张图
+    try:
+        raw = fetch(INDEX.rsplit("/", 1)[0] + "/" + item["file"])
+        check(sha(raw) == item.get("sha256", "").lower(), "图标 " + name + " 单独下载 sha256 一致")
+    except Exception as error:
+        check(False, "图标 " + name + " 单独下载失败", str(error)[:80])
+if aggregate:
+    expected = hashlib.sha256("".join(sorted(aggregate)).encode("utf-8")).hexdigest()
+    check(expected == (icons.get("sha256") or "").lower(),
+          "图标整批 sha256 与公布一致（App 靠它判断要不要更新）")
+
 print()
 if bad:
     print("有 %d 项没通过：" % len(bad))
