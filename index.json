@@ -2,148 +2,83 @@
   "schema": 1,
   "name": "渊の插件源",
   "updatedAt": "2026-10-19",
-  "note": "订阅这一条地址即可：更新时只下载 bundle 那一个 zip —— 里面已经装好了元信息源、艺术家图源、平台图标和标签识别规则，App 一次请求全部装齐。bundle 取不到时才回退到逐个下载 plugins[] 里的包与 icons.files[] 里的图标（老客户端也能用）。元信息源的源码在上游 Lyrico-Plugins，不在本仓库；艺术家图源源码在 artistimage-src/ 下；标签规则在 rules/ 下并按组拆分；平台图标在 icon/ 下，按文件名对元信息页的分组名（bilibili.png → 哔哩哔哩）。",
-  "rules": {
-    "file": "rules/rules.json",
-    "sha256": "0b4211a66b7155480425cd32a480251d6965eb81150759450c5c7c459320ca2a"
-  },
   "bundle": {
-    "url": "https://github.com/motian16/Metainfo/releases/download/v1.2/MetaAudio-Subscription.zip",
-    "sha256": "f450a1b307aa12f9715182693ba20ef0718e4158f42aa641ff0e822b27834c5e",
-    "size": 1749013,
+    "url": "https://github.com/motian16/Metainfo/releases/download/v1.2.0/MetaAudio-Subscription.zip",
+    "md5": "4dde5853f292b7f1bc5b9d34ea61f925",
+    "sha256": "4d1c5583c0246e8902e7e5253176b5cdeae270ab448b504d9b1db9d4d4dfc040",
+    "size": 1949287,
     "rules": "rules/tag_rules.json",
     "rulesSha256": "46c5354f80e4cc80a5102ccb61efd597d34ba2344e0b1d9e71d88622d97b9b87"
   },
   "icons": {
-    "sha256": "459f156618541ebb0a7f55a87a982ae998fe5ce62331bc7c443643a9ec796072",
-    "files": [
-      {
-        "file": "icon/apple-notes.png",
-        "sha256": "27622a552883e809dae4c5b07ff23149ce8f32e5fa820e2e8d887c6baa9607c4"
-      },
-      {
-        "file": "icon/apple.png",
-        "sha256": "f0bfab0c31c95b4fdb6018daeb6c155d9acb8d6a6277018ce182e0909a70e525"
-      },
-      {
-        "file": "icon/bilibili.png",
-        "sha256": "4a3056bfe8853c30c278adccc42846ffa40e1bec4fa012accf41e4624b1bcb46"
-      },
-      {
-        "file": "icon/ffmpeg.png",
-        "sha256": "2b4fd1d20f9c533293c08eeb32602187ab2e3bb559bf8e5ad8d22c6038e3d271"
-      },
-      {
-        "file": "icon/kugou.png",
-        "sha256": "22af1ce4921e30b1fedf58242197ab9d5fda8f30486a247ea5d00d34c55fb4e0"
-      },
-      {
-        "file": "icon/mora.png",
-        "sha256": "c49e5ffbfe0a6af1bb7fd7b967bf609feba7a81015c0d9556cc2e3bfc5a7d1d6"
-      },
-      {
-        "file": "icon/musicbrainz.png",
-        "sha256": "a9dbe8fc57c728b40f4e6fa06755262488acd7944eca58e95836b786b4c26688"
-      },
-      {
-        "file": "icon/netease.png",
-        "sha256": "0f3a98c65e1060e1bbaa05ad9480082599ff1ee791ed850256144473a243ed9d"
-      },
-      {
-        "file": "icon/qq.png",
-        "sha256": "fd768ea5568292274a559e0e129d89387b21e5a8333979fbafffaa038396302b"
-      },
-      {
-        "file": "icon/touhou.png",
-        "sha256": "ed5ce80eca6a7f0b9954b07323c8f048ecd55d1313ee8e23b1fac512efd24695"
-      }
-    ]
+    "sha256": "459f156618541ebb0a7f55a87a982ae998fe5ce62331bc7c443643a9ec796072"
   },
   "plugins": [
-    {
-      "id": "com.qqmusic.source",
-      "kind": "meta",
-      "name": "QQ音乐",
-      "versionName": "0.4.2",
-      "versionCode": 8,
-      "url": "https://github.com/Replica0110/Lyrico-Plugins/releases/download/v0.4.0/com.qqmusic.source-0.4.2.zip",
-      "sha256": "29bdf2d88e304c2e8ee5968cf82d07199e368f839cd9fc8231129cb5da209b63"
-    },
-    {
-      "id": "com.neteasecloudmusic.source",
-      "kind": "meta",
-      "name": "网易云音乐",
-      "versionName": "0.4.1",
-      "versionCode": 9,
-      "url": "https://github.com/Replica0110/Lyrico-Plugins/releases/download/v0.4.0/com.neteasecloudmusic.source-0.4.1.zip",
-      "sha256": "11f7b1515b4575cb89ec766feaad7de34c08c32963a2a42df69476e2ed9517c0"
-    },
     {
       "id": "com.applemusic.source",
       "kind": "meta",
       "name": "Apple Music",
-      "versionName": "0.4.1",
-      "versionCode": 8,
-      "url": "https://github.com/Replica0110/Lyrico-Plugins/releases/download/v0.4.0/com.applemusic.source-0.4.1.zip",
-      "sha256": "a9ab6a2b923af1788ea19d7711ce53d567a816f2fb6df8cd6020fa8e5b07ac72"
+      "versionName": "0.4.1"
     },
     {
       "id": "com.kugou.source",
       "kind": "meta",
       "name": "酷狗音乐",
-      "versionName": "0.4.1",
-      "versionCode": 7,
-      "url": "https://github.com/Replica0110/Lyrico-Plugins/releases/download/v0.4.0/com.kugou.source-0.4.1.zip",
-      "sha256": "542311f2efb6184c96ce75364bf764bf41ba427ef277966a34e1761d486f5242"
+      "versionName": "0.4.1"
+    },
+    {
+      "id": "com.lrcshare.source",
+      "kind": "meta",
+      "name": "LrcShare",
+      "versionName": "1.6.1"
     },
     {
       "id": "com.musicbrainz.source",
       "kind": "meta",
       "name": "MusicBrainz",
-      "versionName": "1.2.1",
-      "versionCode": 5,
-      "url": "https://github.com/Replica0110/Lyrico-Plugins/releases/download/v0.4.0/com.musicbrainz.source-1.2.1.zip",
-      "sha256": "f77f361f48a91423225a7ecbccdb99c48798b529c49c9e95259bf1b626c3711a"
+      "versionName": "1.2.1"
     },
     {
-      "id": "com.metaaudio.artistimage.qq",
-      "kind": "artistimage",
-      "name": "QQ 音乐 艺术家图片",
-      "versionName": "1.0.0",
-      "versionCode": 1,
-      "url": "https://github.com/motian16/Metainfo/releases/download/v1.2/com.metaaudio.artistimage.qq.zip",
-      "src": "https://github.com/motian16/Metainfo/tree/main/artistimage-src/qq",
-      "sha256": "1634b98637d4ded30122955915406d020bd391e1bb9f85c65aa7e5eea21f800b"
+      "id": "com.neteasecloudmusic.source",
+      "kind": "meta",
+      "name": "网易云音乐",
+      "versionName": "0.4.1"
     },
     {
-      "id": "com.metaaudio.artistimage.netease",
-      "kind": "artistimage",
-      "name": "网易云音乐 艺术家图片",
-      "versionName": "1.0.0",
-      "versionCode": 1,
-      "url": "https://github.com/motian16/Metainfo/releases/download/v1.2/com.metaaudio.artistimage.netease.zip",
-      "src": "https://github.com/motian16/Metainfo/tree/main/artistimage-src/netease",
-      "sha256": "d864b712c1f2a429f06717a806296cbd28bdaacbb5b489bb8927497d34bba14c"
+      "id": "com.qqmusic.source",
+      "kind": "meta",
+      "name": "QQ音乐",
+      "versionName": "0.4.2"
+    },
+    {
+      "id": "com.sodamusic.source",
+      "kind": "meta",
+      "name": "汽水音乐",
+      "versionName": "0.5.1"
     },
     {
       "id": "com.metaaudio.artistimage.apple",
       "kind": "artistimage",
       "name": "Apple Music 艺术家图片",
-      "versionName": "1.0.0",
-      "versionCode": 1,
-      "url": "https://github.com/motian16/Metainfo/releases/download/v1.2/com.metaaudio.artistimage.apple.zip",
-      "src": "https://github.com/motian16/Metainfo/tree/main/artistimage-src/apple",
-      "sha256": "2b18dfa947fdab8d1045eeb81aef661179b12195ed4045fc1cfa83e7bb2a8ea3"
+      "versionName": "1.0.0"
     },
     {
       "id": "com.metaaudio.artistimage.kugou",
       "kind": "artistimage",
       "name": "酷狗音乐 艺术家图片",
-      "versionName": "1.0.0",
-      "versionCode": 1,
-      "url": "https://github.com/motian16/Metainfo/releases/download/v1.2/com.metaaudio.artistimage.kugou.zip",
-      "src": "https://github.com/motian16/Metainfo/tree/main/artistimage-src/kugou",
-      "sha256": "824a041e333d7d7d323c63f30f5921d828e5400e66a2a7dbe231f9daf2864b02"
+      "versionName": "1.0.0"
+    },
+    {
+      "id": "com.metaaudio.artistimage.netease",
+      "kind": "artistimage",
+      "name": "网易云音乐 艺术家图片",
+      "versionName": "1.0.0"
+    },
+    {
+      "id": "com.metaaudio.artistimage.qq",
+      "kind": "artistimage",
+      "name": "QQ 音乐 艺术家图片",
+      "versionName": "1.0.0"
     }
   ]
 }

@@ -1,5 +1,4 @@
-# 一律用 LF 存：仓库里的 sha256（index.json 公布的、rules/rules.json 里分片的）
-# 都是按 LF 的字节算的，Windows 上一旦被换成 CRLF，校验值就全对不上了。
+# 一律用 LF 存：index.json、rules/rules.json 里公布的 sha256 都按 LF 的字节算。
 * text=auto eol=lf
 *.png binary
 *.jpg binary
