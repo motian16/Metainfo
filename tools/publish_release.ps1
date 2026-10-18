@@ -7,7 +7,7 @@
 # This file is deliberately ASCII-only: a .ps1 with non-ASCII comments is read
 # with the wrong encoding by Windows PowerShell and fails to parse.
 param(
-    [string]$Tag = "v3",
+    [string]$Tag = "v1.2",
     [string]$Repo = "motian16/Metainfo"
 )
 $ErrorActionPreference = "Stop"

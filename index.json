@@ -1,16 +1,16 @@
 {
   "schema": 1,
   "name": "渊の插件源",
-  "updatedAt": "2026-10-11",
+  "updatedAt": "2026-10-19",
   "note": "订阅这一条地址即可：更新时只下载 bundle 那一个 zip —— 里面已经装好了元信息源、艺术家图源、平台图标和标签识别规则，App 一次请求全部装齐。bundle 取不到时才回退到逐个下载 plugins[] 里的包与 icons.files[] 里的图标（老客户端也能用）。元信息源的源码在上游 Lyrico-Plugins，不在本仓库；艺术家图源源码在 artistimage-src/ 下；标签规则在 rules/ 下并按组拆分；平台图标在 icon/ 下，按文件名对元信息页的分组名（bilibili.png → 哔哩哔哩）。",
   "rules": {
     "file": "rules/rules.json",
     "sha256": "0b4211a66b7155480425cd32a480251d6965eb81150759450c5c7c459320ca2a"
   },
   "bundle": {
-    "url": "https://github.com/motian16/Metainfo/releases/download/v3/MetaAudio-Subscription.zip",
-    "sha256": "100d584001cedae7ba33d4efcf5267ed21842171af3ce4c236530250ae5f71cf",
-    "size": 1748522,
+    "url": "https://github.com/motian16/Metainfo/releases/download/v1.2/MetaAudio-Subscription.zip",
+    "sha256": "f450a1b307aa12f9715182693ba20ef0718e4158f42aa641ff0e822b27834c5e",
+    "size": 1749013,
     "rules": "rules/tag_rules.json",
     "rulesSha256": "46c5354f80e4cc80a5102ccb61efd597d34ba2344e0b1d9e71d88622d97b9b87"
   },
@@ -111,9 +111,9 @@
       "name": "QQ 音乐 艺术家图片",
       "versionName": "1.0.0",
       "versionCode": 1,
-      "url": "https://github.com/motian16/Metainfo/releases/download/v3/com.metaaudio.artistimage.qq.zip",
+      "url": "https://github.com/motian16/Metainfo/releases/download/v1.2/com.metaaudio.artistimage.qq.zip",
       "src": "https://github.com/motian16/Metainfo/tree/main/artistimage-src/qq",
-      "sha256": "c5fd6026043e1a6107f7c88d01fe02d92c482111449f5b740aed12a9e34cbcdf"
+      "sha256": "1634b98637d4ded30122955915406d020bd391e1bb9f85c65aa7e5eea21f800b"
     },
     {
       "id": "com.metaaudio.artistimage.netease",
@@ -121,9 +121,9 @@
       "name": "网易云音乐 艺术家图片",
       "versionName": "1.0.0",
       "versionCode": 1,
-      "url": "https://github.com/motian16/Metainfo/releases/download/v3/com.metaaudio.artistimage.netease.zip",
+      "url": "https://github.com/motian16/Metainfo/releases/download/v1.2/com.metaaudio.artistimage.netease.zip",
       "src": "https://github.com/motian16/Metainfo/tree/main/artistimage-src/netease",
-      "sha256": "04bca6507ef5a00f73ad789ecbde39140543cc10ad2c8c84ec58be88cf3ef2d2"
+      "sha256": "d864b712c1f2a429f06717a806296cbd28bdaacbb5b489bb8927497d34bba14c"
     },
     {
       "id": "com.metaaudio.artistimage.apple",
@@ -131,9 +131,9 @@
       "name": "Apple Music 艺术家图片",
       "versionName": "1.0.0",
       "versionCode": 1,
-      "url": "https://github.com/motian16/Metainfo/releases/download/v3/com.metaaudio.artistimage.apple.zip",
+      "url": "https://github.com/motian16/Metainfo/releases/download/v1.2/com.metaaudio.artistimage.apple.zip",
       "src": "https://github.com/motian16/Metainfo/tree/main/artistimage-src/apple",
-      "sha256": "1c62db6425e94281800fa19de84fc0523e67f81074c6b727bda83f22f36a38ce"
+      "sha256": "2b18dfa947fdab8d1045eeb81aef661179b12195ed4045fc1cfa83e7bb2a8ea3"
     },
     {
       "id": "com.metaaudio.artistimage.kugou",
@@ -141,9 +141,9 @@
       "name": "酷狗音乐 艺术家图片",
       "versionName": "1.0.0",
       "versionCode": 1,
-      "url": "https://github.com/motian16/Metainfo/releases/download/v3/com.metaaudio.artistimage.kugou.zip",
+      "url": "https://github.com/motian16/Metainfo/releases/download/v1.2/com.metaaudio.artistimage.kugou.zip",
       "src": "https://github.com/motian16/Metainfo/tree/main/artistimage-src/kugou",
-      "sha256": "c5b9ca4c5b5b75f303d5cb4378634246b9bd22b1b813eccb849da1f9fab8a015"
+      "sha256": "824a041e333d7d7d323c63f30f5921d828e5400e66a2a7dbe231f9daf2864b02"
     }
   ]
 }

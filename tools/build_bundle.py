@@ -58,7 +58,7 @@ ICON_SRC = os.path.join(ROOT, "icon")
 #: 仓库地址（Release 与 raw 都在这个仓库里）。
 REPO = "motian16/Metainfo"
 #: 订阅包与艺术家图源包所在的 Release 标签。
-DEFAULT_TAG = "v3"
+DEFAULT_TAG = "v1.2"
 #: 订阅包在 Release 里的文件名。
 BUNDLE_NAME = "MetaAudio-Subscription.zip"
 
