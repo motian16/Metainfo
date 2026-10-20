@@ -1,0 +1,31 @@
+{
+  "_comment": "源优先级与默认启停。跟规则一起更新；拖动排序只影响显示，这里才决定刮削先问谁。",
+  "sourcePriority": {
+    "meta": [
+      "com.applemusic.source",
+      "com.qqmusic.source",
+      "com.neteasecloudmusic.source",
+      "com.kugou.source",
+      "com.musicbrainz.source",
+      "com.lrcshare.source",
+      "com.sodamusic.source"
+    ],
+    "artistImage": [
+      "com.metaaudio.artistimage.netease",
+      "com.metaaudio.artistimage.qq",
+      "com.metaaudio.artistimage.kugou",
+      "com.metaaudio.artistimage.apple"
+    ],
+    "lyrics": [
+      "com.qqmusic.source",
+      "com.neteasecloudmusic.source",
+      "com.applemusic.source",
+      "com.kugou.source",
+      "com.sodamusic.source",
+      "com.musicbrainz.source"
+    ],
+    "disabled": [
+      "com.musicbrainz.source"
+    ]
+  }
+}

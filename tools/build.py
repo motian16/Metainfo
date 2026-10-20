@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Build index.json and the subscription bundle.
+"""Build index.json, ArtistImages.zip and tag_rules.json.
 
-The bundle is the single zip the app downloads when updating its subscription:
+订阅从"一个合集包"拆成三份独立资源：
 
-    plugins/<plugin id>.zip   meta sources (upstream Lyrico-Plugins) + artist images (this repo)
-    rules/tag_rules.json      merged tag rules
-    icons/*.png               platform icons for the meta page
+    1. 元信息源：上游 Lyrico-Plugins.zip（外链，不由本仓库托管）
+    2. 艺术家图源：本仓库的 artistimage/ + rules/icons/ → ArtistImages.zip
+    3. 标签规则：合并 rules/ 分片 → tag_rules.json
+
+App 更新时只下这三份（外加几 KB 的 index.json）。
 
 Usage:
-    python tools/build.py                      # latest upstream release, default tag
-    python tools/build.py --tag v1.2.0
-    python tools/build.py --upstream-tag v0.4.0 --refresh
+    python tools/build.py \
+        --tag v1.3.0 \
+        --meta-url https://github.com/Replica0110/Lyrico-Plugins/releases/download/v0.5.0/Lyrico-Plugins.zip \
+        --meta-sha eed04426dced2409e0dee4b40a266ada4cbd2b6e834274fc2bcec30e2b8b58dd \
+        --meta-version 0.5.0
 """
 
 import argparse
@@ -21,21 +25,22 @@ import io
 import json
 import os
 import sys
-import urllib.request
 import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BUILD = os.path.join(ROOT, "build")
-UPSTREAM = os.path.join(BUILD, "upstream")
-PLUGIN_OUT = os.path.join(BUILD, "plugins")
-BUNDLE_NAME = "MetaAudio-Subscription.zip"
+BUNDLE_NAME = "ArtistImages.zip"
+RULES_NAME = "tag_rules.json"
 
 REPO = "motian16/Metainfo"
-TAG = "v1.2.0"
+TAG = "v1.3.0"
 
-UPSTREAM_REPO = "Replica0110/Lyrico-Plugins"
-UPSTREAM_BUNDLE = "Lyrico-Plugins.zip"
-UPSTREAM_MANIFEST = "release-manifest.json"
+META_URL = (
+    "https://github.com/Replica0110/Lyrico-Plugins/releases/download/"
+    "v0.5.0/Lyrico-Plugins.zip"
+)
+META_SHA = "eed04426dced2409e0dee4b40a266ada4cbd2b6e834274fc2bcec30e2b8b58dd"
+META_VERSION = "0.5.0"
 
 RULES_DIR = os.path.join(ROOT, "rules")
 ICONS_DIR = os.path.join(RULES_DIR, "icons")
@@ -47,16 +52,12 @@ FIXED_TIME = (1980, 1, 1, 0, 0, 0)
 ARRAY_KEYS = ("groups", "hints")
 OBJECT_KEYS = (
     "standard", "standardValues", "valueLabels", "valueLabelPatterns",
-    "valueInfoPatterns", "valueAliases", "keyInfo",
+    "valueInfoPatterns", "valueAliases", "keyInfo", "sourcePriority",
 )
 
 
 def sha256(data):
     return hashlib.sha256(data).hexdigest()
-
-
-def md5(data):
-    return hashlib.md5(data).hexdigest()
 
 
 def read_bytes(path):
@@ -74,68 +75,6 @@ def write_text(path, text):
     # UTF-8 without BOM: a BOM makes the app reject the whole index.json.
     with open(path, "w", encoding="utf-8", newline="\n") as handle:
         handle.write(text)
-
-
-def http_get(url):
-    request = urllib.request.Request(url, headers={"User-Agent": "Metainfo-Build"})
-    with urllib.request.urlopen(request, timeout=120) as response:
-        return response.read()
-
-
-def latest_upstream_tag():
-    url = "https://api.github.com/repos/%s/releases/latest" % UPSTREAM_REPO
-    return json.loads(http_get(url).decode("utf-8"))["tag_name"]
-
-
-def fetch_upstream_asset(tag, name, refresh):
-    path = os.path.join(UPSTREAM, tag, name)
-    if os.path.isfile(path) and not refresh:
-        return read_bytes(path)
-    url = "https://github.com/%s/releases/download/%s/%s" % (UPSTREAM_REPO, tag, name)
-    data = http_get(url)
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "wb") as handle:
-        handle.write(data)
-    return data
-
-
-def extract_upstream_sources(tag, bundle_bytes):
-    """Unpack Lyrico-Plugins.zip; returns {root: source dir}."""
-    out = os.path.join(UPSTREAM, tag, "src")
-    if os.path.isdir(out):
-        import shutil
-        shutil.rmtree(out)
-    roots = {}
-    with zipfile.ZipFile(io.BytesIO(bundle_bytes)) as archive:
-        for entry in archive.namelist():
-            if entry.endswith("/"):
-                continue
-            parts = entry.split("/")
-            # Layout: Lyrico-Plugins/<root>/<file...>
-            if len(parts) < 3 or parts[0] != "Lyrico-Plugins":
-                continue
-            relative = "/".join(parts[1:])
-            target = os.path.join(out, relative.replace("/", os.sep))
-            os.makedirs(os.path.dirname(target), exist_ok=True)
-            with open(target, "wb") as handle:
-                handle.write(archive.read(entry))
-            roots[parts[1]] = os.path.join(out, parts[1])
-    return roots
-
-
-def zip_tree(source_dir, prefix):
-    """Zip one plugin source directory (single top-level dir, fixed timestamps)."""
-    buffer = io.BytesIO()
-    with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
-        for folder, _, files in os.walk(source_dir):
-            for name in sorted(files):
-                full = os.path.join(folder, name)
-                relative = os.path.relpath(full, source_dir).replace(os.sep, "/")
-                info = zipfile.ZipInfo(prefix + "/" + relative, date_time=FIXED_TIME)
-                info.compress_type = zipfile.ZIP_DEFLATED
-                info.external_attr = 0o644 << 16
-                archive.writestr(info, read_bytes(full))
-    return buffer.getvalue()
 
 
 def merge_rules():
@@ -175,7 +114,7 @@ def icons_digest(icons):
 
 
 def artist_plugins():
-    """Log in artistimage/: one plugin per directory (manifest.json tells id/version)."""
+    """artistimage/: one plugin per directory (manifest.json tells id/version)."""
     plugins = []
     for name in sorted(os.listdir(ARTIST_DIR)):
         directory = os.path.join(ARTIST_DIR, name)
@@ -193,47 +132,8 @@ def artist_plugins():
     return plugins
 
 
-def build(release_tag, upstream_tag, refresh):
-    tag = upstream_tag or latest_upstream_tag()
-    print("upstream %s/%s" % (UPSTREAM_REPO, tag))
-    bundle_bytes = fetch_upstream_asset(tag, UPSTREAM_BUNDLE, refresh)
-    manifest = json.loads(fetch_upstream_asset(tag, UPSTREAM_MANIFEST, refresh).decode("utf-8"))
-    roots = extract_upstream_sources(tag, bundle_bytes)
-
-    plugin_files = []
-    meta_entries = []
-    for item in manifest["plugins"]:
-        source = roots.get(item["root"])
-        if source is None:
-            raise SystemExit("上游包里没有目录：" + item["root"])
-        data = zip_tree(source, item["root"])
-        plugin_files.append((item["id"] + ".zip", data))
-        meta_entries.append({
-            "id": item["id"],
-            "kind": "meta",
-            "name": item["name"],
-            "versionName": item["versionName"],
-        })
-        print("  meta   %-28s %-9s %7d bytes" % (item["id"], item["versionName"], len(data)))
-
-    artist_entries = []
-    for item in artist_plugins():
-        data = zip_tree(item["source"], item["root"])
-        plugin_files.append((item["id"] + ".zip", data))
-        artist_entries.append({
-            "id": item["id"],
-            "kind": "artistimage",
-            "name": item["name"],
-            "versionName": item["versionName"],
-        })
-        print("  artist %-28s %-9s %7d bytes" % (item["id"], item["versionName"], len(data)))
-
-    rules = merge_rules()
-    icons = collect_icons()
-    print("  rules  rulesVersion=%s  %d bytes" % (json.loads(rules).get("rulesVersion"), len(rules)))
-    print("  icons  %d png" % len(icons))
-
-    os.makedirs(PLUGIN_OUT, exist_ok=True)
+def build_artist_zip(plugins, icons):
+    """artistimage/<root>/... + icons/*.png, fixed timestamps."""
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         def add(path, data, store=False):
@@ -242,50 +142,90 @@ def build(release_tag, upstream_tag, refresh):
             info.external_attr = 0o644 << 16
             archive.writestr(info, data)
 
-        # Plugin zips and pngs are already compressed; re-compressing only burns time.
-        for name, data in plugin_files:
-            with open(os.path.join(PLUGIN_OUT, name), "wb") as handle:
-                handle.write(data)
-            add("plugins/" + name, data, store=True)
+        for item in plugins:
+            source_dir = item["source"]
+            for folder, _, files in os.walk(source_dir):
+                for name in sorted(files):
+                    full = os.path.join(folder, name)
+                    relative = os.path.relpath(full, source_dir).replace(os.sep, "/")
+                    add("artistimage/" + item["root"] + "/" + relative, read_bytes(full))
+
+        # Icons already compressed: store as-is. They ride with the artist zip so the
+        # update stays at exactly three downloads.
         for name, data in icons.items():
             add("icons/" + name, data, store=True)
-        add("rules/tag_rules.json", rules)
+    return buffer.getvalue()
 
-    bundle = buffer.getvalue()
+
+def build(release_tag, meta_url, meta_sha, meta_version):
+    plugins = artist_plugins()
+    rules = merge_rules()
+    icons = collect_icons()
+
+    artist_zip = build_artist_zip(plugins, icons)
+    os.makedirs(BUILD, exist_ok=True)
     with open(os.path.join(BUILD, BUNDLE_NAME), "wb") as handle:
-        handle.write(bundle)
+        handle.write(artist_zip)
+    with open(os.path.join(BUILD, RULES_NAME), "wb") as handle:
+        handle.write(rules)
+
+    artist_entries = [{
+        "id": item["id"],
+        "kind": "artistimage",
+        "name": item["name"],
+        "versionName": item["versionName"],
+    } for item in plugins]
 
     index = {
-        "schema": 1,
+        "schema": 2,
         "name": "渊の插件源",
         "updatedAt": datetime.date.today().isoformat(),
-        "bundle": {
+        "meta": {
+            "url": meta_url,
+            "sha256": meta_sha,
+            "version": meta_version,
+            "plugins": [
+                "com.applemusic.source",
+                "com.kugou.source",
+                "com.lrcshare.source",
+                "com.musicbrainz.source",
+                "com.neteasecloudmusic.source",
+                "com.qqmusic.source",
+                "com.sodamusic.source",
+            ],
+        },
+        "artistImage": {
             "url": "https://github.com/%s/releases/download/%s/%s" % (REPO, release_tag, BUNDLE_NAME),
-            "md5": md5(bundle),
-            "sha256": sha256(bundle),
-            "size": len(bundle),
-            "rules": "rules/tag_rules.json",
-            "rulesSha256": sha256(rules),
+            "sha256": sha256(artist_zip),
+            "size": len(artist_zip),
+            "version": "1.0.0",
+        },
+        "rules": {
+            "url": "https://github.com/%s/releases/download/%s/%s" % (REPO, release_tag, RULES_NAME),
+            "sha256": sha256(rules),
         },
         "icons": {"sha256": icons_digest(icons)},
-        "plugins": meta_entries + artist_entries,
+        "plugins": artist_entries,
     }
     write_text(os.path.join(ROOT, "index.json"), json.dumps(index, ensure_ascii=False, indent=2) + "\n")
 
-    print("bundle %d bytes (%.2f MB)" % (len(bundle), len(bundle) / 1048576.0))
-    print("  md5    " + index["bundle"]["md5"])
-    print("  sha256 " + index["bundle"]["sha256"])
+    print("ArtistImages.zip %d bytes (%.2f MB)" % (len(artist_zip), len(artist_zip) / 1048576.0))
+    print("  sha256 " + index["artistImage"]["sha256"])
+    print("tag_rules.json %d bytes" % len(rules))
+    print("  sha256 " + index["rules"]["sha256"])
+    print("icons %d png" % len(icons))
     print("index.json written")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Build the MetaAudio subscription bundle")
+    parser = argparse.ArgumentParser(description="Build MetaAudio subscription metadata")
     parser.add_argument("--tag", default=TAG, help="release tag of this repo (default %s)" % TAG)
-    parser.add_argument("--upstream-tag", default="", help="Lyrico-Plugins tag (default: latest)")
-    parser.add_argument("--refresh", action="store_true", help="re-download the upstream zip")
+    parser.add_argument("--meta-url", default=META_URL, help="Lyrico-Plugins.zip URL")
+    parser.add_argument("--meta-sha", default=META_SHA, help="Lyrico-Plugins.zip sha256")
+    parser.add_argument("--meta-version", default=META_VERSION, help="Lyrico-Plugins version")
     args = parser.parse_args()
 
-    build(args.tag, args.upstream_tag, args.refresh)
+    build(args.tag, args.meta_url, args.meta_sha, args.meta_version)
     return 0
 
 

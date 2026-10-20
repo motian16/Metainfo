@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Check a published subscription: index.json -> bundle -> every file inside.
+"""Check a published subscription: index.json -> meta / artistImage / rules.
 
     python tools/verify.py            # against the published index.json
     python tools/verify.py --local    # against the local index.json + build/
@@ -17,7 +17,8 @@ import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INDEX_URL = "https://raw.githubusercontent.com/motian16/Metainfo/main/index.json"
-BUNDLE_NAME = "MetaAudio-Subscription.zip"
+ARTIST_NAME = "ArtistImages.zip"
+RULES_NAME = "tag_rules.json"
 
 problems = []
 
@@ -34,8 +35,8 @@ def fetch(url):
         return response.read()
 
 
-def digests(data):
-    return hashlib.md5(data).hexdigest(), hashlib.sha256(data).hexdigest()
+def sha256(data):
+    return hashlib.sha256(data).hexdigest()
 
 
 def main():
@@ -46,51 +47,56 @@ def main():
     if args.local:
         with open(os.path.join(ROOT, "index.json"), "r", encoding="utf-8-sig") as handle:
             index = json.load(handle)
-        bundle = open(os.path.join(ROOT, "build", BUNDLE_NAME), "rb").read()
-        print("local index.json + build/" + BUNDLE_NAME)
+        artist = open(os.path.join(ROOT, "build", ARTIST_NAME), "rb").read()
+        rules = open(os.path.join(ROOT, "build", RULES_NAME), "rb").read()
+        meta = open(os.path.join(ROOT, "build", "Lyrico-Plugins.cached.zip"), "rb").read() \
+            if os.path.isfile(os.path.join(ROOT, "build", "Lyrico-Plugins.cached.zip")) else None
+        print("local index.json + build/")
     else:
         print("GET " + INDEX_URL)
         index = json.loads(fetch(INDEX_URL).decode("utf-8"))
-        bundle_meta = index["bundle"]
-        print("GET " + bundle_meta["url"])
-        bundle = fetch(bundle_meta["url"])
+        print("GET index.meta.url")
+        meta = fetch(index["meta"]["url"])
+        print("GET index.artistImage.url")
+        artist = fetch(index["artistImage"]["url"])
+        print("GET index.rules.url")
+        rules = fetch(index["rules"]["url"])
 
-    meta = index["bundle"]
-    md5, sha = digests(bundle)
-    check(md5 == meta.get("md5", "").lower(), "bundle md5", md5)
-    check(sha == meta.get("sha256", "").lower(), "bundle sha256", sha)
-    check(len(bundle) == meta.get("size", len(bundle)), "bundle size", str(len(bundle)))
+    if meta is not None:
+        check(sha256(meta) == index["meta"].get("sha256", "").lower(), "meta sha256")
+        with zipfile.ZipFile(io.BytesIO(meta)) as archive:
+            manifests = [n for n in archive.namelist() if n.endswith("/manifest.json")]
+        check(len(manifests) > 0, "meta plugins", str(len(manifests)) + " 个")
 
-    archive = zipfile.ZipFile(io.BytesIO(bundle))
+    check(sha256(artist) == index["artistImage"].get("sha256", "").lower(), "artistImage sha256")
+    check(len(artist) == index["artistImage"].get("size", len(artist)),
+          "artistImage size", str(len(artist)))
+
+    archive = zipfile.ZipFile(io.BytesIO(artist))
     names = set(archive.namelist())
-    rules = archive.read("rules/tag_rules.json")
-    check(hashlib.sha256(rules).hexdigest() == meta.get("rulesSha256", "").lower(),
-          "rules sha256", str(json.loads(rules).get("rulesVersion")) + " 版")
-
-    for item in index["plugins"]:
-        entry = "plugins/" + item["id"] + ".zip"
-        if entry not in names:
-            check(False, item["id"] + " in bundle")
+    found = {}
+    for name in names:
+        if not name.endswith("/manifest.json"):
             continue
-        raw = archive.read(entry)
-        with zipfile.ZipFile(io.BytesIO(raw)) as plugin:
-            manifest_name = next((n for n in plugin.namelist() if n.endswith("manifest.json")), None)
-            if manifest_name is None:
-                check(False, item["id"] + " manifest.json")
-                continue
-            manifest = json.loads(plugin.read(manifest_name).decode("utf-8-sig"))
-        check(manifest.get("id") == item["id"], item["id"] + " id")
-        check(manifest.get("versionName") == item["versionName"],
-              item["id"] + " version", str(manifest.get("versionName")))
+        manifest = json.loads(archive.read(name).decode("utf-8-sig"))
+        found[manifest.get("id")] = manifest
+    for item in index["plugins"]:
+        manifest = found.get(item["id"])
+        check(manifest is not None, item["id"] + " in artist zip")
+        if manifest is not None:
+            check(manifest.get("versionName") == item["versionName"],
+                  item["id"] + " version", str(manifest.get("versionName")))
 
     icons = [n for n in names if n.startswith("icons/") and n.lower().endswith(".png")]
-    check(len(icons) > 0, "icons in bundle", str(len(icons)) + " png")
+    check(len(icons) > 0, "icons in artist zip", str(len(icons)) + " png")
     lines = ""
     for path in sorted(icons):
-        data = archive.read(path)
-        lines += "%s %s\n" % (path.split("/")[-1], hashlib.sha256(data).hexdigest())
-    aggregate = hashlib.sha256(lines.encode("utf-8")).hexdigest()
-    check(aggregate == (index.get("icons") or {}).get("sha256", "").lower(), "icons sha256")
+        lines += "%s %s\n" % (path.split("/")[-1], sha256(archive.read(path)))
+    check(sha256(lines.encode("utf-8")) == (index.get("icons") or {}).get("sha256", "").lower(),
+          "icons sha256")
+
+    check(sha256(rules) == index["rules"].get("sha256", "").lower(), "rules sha256")
+    check(json.loads(rules.decode("utf-8")).get("rulesVersion") is not None, "rules parsed")
 
     print()
     if problems:

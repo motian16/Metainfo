@@ -18,6 +18,10 @@
       "sha256": "d0b817f6d7d9e26f8d32339edd1dda0e2235478717b4e33951010020c15e4a03"
     },
     {
+      "file": "shared/sources.json",
+      "sha256": "1b62e82f6f3d6a944128d6ff9a4a5b903fbdf0c8edd992bc9b132fad5ec2008b"
+    },
+    {
       "file": "groups/acoustid.json",
       "sha256": "4979e88fb136f202d06a91dccfd4ddb07c022a0df483cf41e4fadd01e3dc97d5"
     },
